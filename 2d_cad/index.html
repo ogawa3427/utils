@@ -1,11 +1,50 @@
-<meta charset="UTF-8">
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>2D CAD</title>
-    </head>
-    <body>
-        <canvas id="canvas"></canvas>
-    </body>
-</html>
 
+<head>
+    <meta charset="UTF-8">
+    <title>2D CAD</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1>Simple 2D CAD</h1>
+    </div>
+    <div class="main-container">
+        <div class="container canvas left-half">
+            <h2>Canvas</h2>
+            <canvas id="canvas"></canvas>
+            <div id="svg-container"></div>
+        </div>
+        <div class="right-half">
+            <div class="container hierarchy" id="outer-hierarchy">
+                <h2>Hierarchy</h2>
+                <div id="hierarchy"></div>
+            </div>
+            <div class="container prompt">
+                <h2>Prompt</h2>
+                <input type="text" id="prompt-input" placeholder="Type here..." style="width: 100%;">
+                <button id="submit-prompt">Submit</button>
+                <div id="prompt-output"></div>
+            </div>
+        </div>
+    </div>
+    <div class="controls">
+        <button id="saveToOne">Save[1]</button>
+        <button id="saveToTwo">Save[2]</button>
+        <button id="saveToThree">Save[3]</button>
+
+        <button id="load-svg-one">SVG 1を読み込む</button>
+        <button id="load-svg-two">SVG 2を読み込む</button>
+        <button id="load-svg-three">SVG 3を読み込む</button>
+
+        <button id="toggle-mode">Toggle Dark Mode</button>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script src="./canvas.mjs" type="module"></script>
+    <script src="./body.mjs" type="module"></script>
+    <script src="./shell.mjs" type="module"></script>
+</body>
+
+</html>
