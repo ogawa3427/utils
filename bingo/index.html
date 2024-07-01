@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bingo</title>
+        <style>
+            .bingo-cell {
+                width: 50px;
+                height: 50px;
+                display: inline-block;
+                text-align: center;
+                vertical-align: middle;
+                border: 1px solid #000;
+                line-height: 50px;
+            }
+            .bingo-row {
+                display: flex;
+            }
+            .selected {
+                background-color: yellow;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Bingo</h1>
+        </div>
+        <div class="main-container">
+        </div> 
+        <div class="footer">
+            <button id="start">Start</button>
+            <button id="reset">Reset</button>
+        </div>
+        <script>
+            document.getElementById('start').addEventListener('click', generateBingoSheet);
+
+            function generateBingoSheet() {
+                const container = document.querySelector('.main-container');
+                container.innerHTML = ''; // 既存の内容をクリア
+
+                const numbers = Array.from({ length: 75 }, (_, i) => i + 1);
+                shuffle(numbers);
+
+                for (let i = 0; i < 5; i++) {
+                    const row = document.createElement('div');
+                    row.className = 'bingo-row';
+                    for (let j = 0; j < 5; j++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'bingo-cell';
+                        if (i === 2 && j === 2) {
+                            cell.textContent = 'FREE';
+                        } else {
+                            cell.textContent = numbers.pop();
+                        }
+                        cell.addEventListener('click', toggleCell); // クリックイベントを追加
+                        row.appendChild(cell);
+                    }
+                    container.appendChild(row);
+                }
+            }
+
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            function toggleCell(event) {
+                const cell = event.target;
+                cell.classList.toggle('selected'); // 'selected' クラスをトグル
+            }
+        </script>
+    </body>
+</html>
