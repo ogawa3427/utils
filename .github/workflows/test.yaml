@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  open-issue:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -18,14 +18,14 @@ jobs:
 
       - name: Convert PPTX to Image
         run: |
-          unoconv -f pdf ${{ github.workspace }}/presentation.pptx
-          convert -density 300 presentation.pdf -quality 90 presentation-%d.png
+          unoconv -f pdf ${{ github.workspace }}/quiz/quiz.pptx
+          convert -density 300 ${{ github.workspace }}/quiz/quiz.pdf -quality 90 ${{ github.workspace }}/quiz/quiz-%d.png
 
       - name: Upload Image
         uses: actions/upload-artifact@v2
         with:
-          name: presentation
-          path: presentation-*.png
+          name: quiz
+          path: ${{ github.workspace }}/quiz/quiz-*.png
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
