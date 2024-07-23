@@ -13,12 +13,11 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y libreoffice
-          sudo apt install -y unoconv
           sudo apt install -y imagemagick
 
       - name: Convert PPTX to Image
         run: |
-          unoconv -f pdf ${{ github.workspace }}/quiz/quiz.pptx
+          libreoffice --headless --convert-to pdf ${{ github.workspace }}/quiz/quiz.pptx --outdir ${{ github.workspace }}/quiz
           convert -density 300 ${{ github.workspace }}/quiz/quiz.pdf -quality 90 ${{ github.workspace }}/quiz/quiz-%d.png
 
       - name: Upload Image
