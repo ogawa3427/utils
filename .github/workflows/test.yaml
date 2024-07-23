@@ -15,9 +15,20 @@ jobs:
           sudo apt install -y libreoffice
           sudo apt install -y imagemagick
 
+      - name: Check if PPTX file exists
+        run: |
+          if [ ! -f "${{ github.workspace }}/quiz/quiz.pptx" ]; then
+            echo "PPTX file does not exist"
+            exit 1
+          fi
+
       - name: Convert PPTX to Image
         run: |
           libreoffice --headless --convert-to pdf ${{ github.workspace }}/quiz/quiz.pptx --outdir ${{ github.workspace }}/quiz
+          if [ ! -f "${{ github.workspace }}/quiz/quiz.pdf" ]; then
+            echo "PDF conversion failed"
+            exit 1
+          fi
           convert -density 300 ${{ github.workspace }}/quiz/quiz.pdf -quality 90 ${{ github.workspace }}/quiz/quiz-%d.png
 
       - name: Upload Image
