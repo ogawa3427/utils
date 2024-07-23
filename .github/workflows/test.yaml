@@ -13,7 +13,14 @@ jobs:
     #     working-directory: quiz
     steps:
       - name: ls
-        run: ls -a
+        run: |
+          ls -a
+          ls -la
+          pwd
+          cd ..
+          pwd
+          ls -la
+          ls
 
       - name: Install dependencies
         run: |
