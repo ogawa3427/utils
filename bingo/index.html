@@ -28,18 +28,57 @@
         </div>
         <div class="main-container">
         </div> 
+        <div class="mission-box">
+         </div>
+
+        </div>
         <div class="footer">
             <button id="start">Start</button>
             <button id="reset">Reset</button>
         </div>
         <script>
+          const miisions = {
+            "1": "「好きな動物は何ですか?」",
+            "2": "「好きな動物は何ですか?」",
+            "3": "「好きな動物は何ですか?」",
+            "4": "「好きな動物は何ですか?」",
+            "5": "「好きなアニメ・映画は何ですか?」",
+            "6": "「好きなアニメ・映画は何ですか?」",
+            "7": "「好きなアニメ・映画は何ですか?」",
+            "8": "「好きなアニメ・映画は何ですか?」",
+            "9": "「楽しかった授業は何ですか?」",
+            "10": "「楽しかった授業は何ですか?」",
+            "11": "「楽しかった授業は何ですか?」",
+            "12": " 「〇〇教授の行っている研究内容は何か聴いてください」",
+            "13": "「あっち向いてホイをして勝ってください」",
+            "14": "「あっち向いてホイをして勝ってください」",
+            "15": "「あっち向いてホイをして勝ってください」",
+            "16": "「あっち向いてホイをして勝ってください」",
+            "17": "「行って楽しかった観光地を〇〇学類に聞いて下さい」",
+            "18": "「行って楽しかった観光地を〇〇学類に聞いて下さい」",
+            "19": "「行って楽しかった観光地を〇〇学類に聞いて下さい」",
+            "20": "「金沢大学の改善すべきところは何ですか?」",
+            "21": "「金沢大学の改善すべきところは何ですか?」",
+            "22": "「金沢大学の改善すべきところは何ですか?」",
+            "23": "「金沢大学の改善すべきところは何ですか?」",
+            "24": "「なぜ今の学類を選んだのかを聞いて下さい」",
+            "25": " 「なぜ今の学類を選んだのかを聞いて下さい」",
+            "26": "「なぜ今の学類を選んだのかを聞いて下さい」",
+            "27": "「なぜ今の学類を選んだのかを聞いて下さい」",
+            "28": "「今何に力を言えれているのか〇〇教授に言って下さい」",
+            "29": "「今何に力を言えれているのか〇〇教授に言って下さい」",
+            "30": "「3学類で一セットを作って、しかのこのこのここしたんたんを踊ってください」",
+
+          }
             document.getElementById('start').addEventListener('click', generateBingoSheet);
 
             function generateBingoSheet() {
                 const container = document.querySelector('.main-container');
+                const missionBox = document.querySelector('.mission-box');
+                missionBox.innerHTML = ''; // 既存の内容をクリア
                 container.innerHTML = ''; // 既存の内容をクリア
 
-                const numbers = Array.from({ length: 75 }, (_, i) => i + 1);
+                const numbers = Array.from({ length: 30 }, (_, i) => i + 1);
                 shuffle(numbers);
 
                 for (let i = 0; i < 5; i++) {
@@ -53,6 +92,9 @@
                         } else {
                             cell.textContent = numbers.pop();
                         }
+                        let missionTextBox = document.createElement('p');
+                        missionTextBox.textContent = cell.textContent + miisions[cell.textContent];
+                        missionBox.appendChild(missionTextBox);
                         cell.addEventListener('click', toggleCell); // クリックイベントを追加
                         row.appendChild(cell);
                     }
@@ -74,4 +116,3 @@
         </script>
     </body>
 </html>
-
