@@ -8,9 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    defaults:
-      run:
-        working-directory: quiz
+    # defaults:
+    #   run:
+    #     working-directory: quiz
     steps:
       - name: Install dependencies
         run: |
@@ -27,6 +27,7 @@ jobs:
 
       - name: Convert PPTX to Image
         run: |
+          cd quiz
           libreoffice --headless --convert-to pdf quiz.pptx --outdir quiz
           if [ ! -f "quiz.pdf" ]; then
             echo "PDF conversion failed"
