@@ -10,7 +10,7 @@ jobs:
       contents: write
     defaults:
       run:
-        working-directory: ./quiz
+        working-directory: ./bingo
     steps:
       # - name: ls
       #   run: |
