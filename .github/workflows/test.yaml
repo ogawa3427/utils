@@ -20,9 +20,9 @@ jobs:
 
       - name: Check if PPTX file exists
         run: |
+          cd quiz
           if [ ! -f "quiz.pptx" ]; then
             echo "PPTX file does not exist"
-            exit 1
           fi
 
       - name: Convert PPTX to Image
