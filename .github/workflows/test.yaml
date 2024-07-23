@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    defaults:
+      run:
+        working-directory: ./quiz
     steps:
       - name: Install dependencies
         run: |
@@ -17,25 +20,25 @@ jobs:
 
       - name: Check if PPTX file exists
         run: |
-          if [ ! -f "${{ github.workspace }}/quiz/quiz.pptx" ]; then
+          if [ ! -f "quiz.pptx" ]; then
             echo "PPTX file does not exist"
             exit 1
           fi
 
       - name: Convert PPTX to Image
         run: |
-          libreoffice --headless --convert-to pdf ${{ github.workspace }}/quiz/quiz.pptx --outdir ${{ github.workspace }}/quiz
-          if [ ! -f "${{ github.workspace }}/quiz/quiz.pdf" ]; then
+          libreoffice --headless --convert-to pdf quiz.pptx --outdir quiz
+          if [ ! -f "quiz.pdf" ]; then
             echo "PDF conversion failed"
             exit 1
           fi
-          convert -density 300 ${{ github.workspace }}/quiz/quiz.pdf -quality 90 ${{ github.workspace }}/quiz/quiz-%d.png
+          convert -density 300 quiz.pdf -quality 90 quiz-%d.png
 
-      - name: Upload Image
-        uses: actions/upload-artifact@v2
-        with:
-          name: quiz
-          path: ${{ github.workspace }}/quiz/quiz-*.png
+      # - name: Upload Image
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: quiz
+      #     path: quiz-*.png
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
