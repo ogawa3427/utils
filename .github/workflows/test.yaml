@@ -13,10 +13,13 @@ jobs:
     #     working-directory: quiz
     steps:
       - name: ls
-        run: ls -la
+        run: ls -a
+
       - name: Install dependencies
         run: |
           sudo apt update
+          sudo apt install -y tree
+          tree -1
           sudo apt install -y libreoffice
           sudo apt install -y imagemagick
 
