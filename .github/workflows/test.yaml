@@ -1,0 +1,38 @@
+name: Pptx to Image
+on: 
+  push:
+  workflow_dispatch:
+
+jobs:
+  open-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y libreoffice
+          sudo apt install -y unoconv
+          sudo apt install -y imagemagick
+
+      - name: Convert PPTX to Image
+        run: |
+          unoconv -f pdf ${{ github.workspace }}/presentation.pptx
+          convert -density 300 presentation.pdf -quality 90 presentation-%d.png
+
+      - name: Upload Image
+        uses: actions/upload-artifact@v2
+        with:
+          name: presentation
+          path: presentation-*.png
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Convert PPTX to Image"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+          branch: ${{ github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
