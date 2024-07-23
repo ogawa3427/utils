@@ -12,6 +12,8 @@ jobs:
     #   run:
     #     working-directory: quiz
     steps:
+      - name: ls
+        run: ls -la
       - name: Install dependencies
         run: |
           sudo apt update
@@ -27,6 +29,7 @@ jobs:
 
       - name: Convert PPTX to Image
         run: |
+          ls -la
           cd quiz
           libreoffice --headless --convert-to pdf quiz.pptx --outdir quiz
           if [ ! -f "quiz.pdf" ]; then
