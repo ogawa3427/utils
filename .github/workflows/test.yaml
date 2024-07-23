@@ -10,17 +10,20 @@ jobs:
       contents: write
     # defaults:
     #   run:
-    #     working-directory: quiz
+    #     working-directory: ./quiz
     steps:
       - name: ls
         run: |
-          ls -a
           ls -la
           pwd
           cd ..
           pwd
           ls -la
-          ls
+          cd utils
+          pwd
+          cd utils
+          pwd
+          ls -la
 
       - name: Install dependencies
         run: |
