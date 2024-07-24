@@ -30,6 +30,9 @@ jobs:
           tree -L 2
           sudo apt install -y libreoffice
           sudo apt install poppler-utils
+          sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
+          # 必要なフォントをインストール
+          sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
 
       - name: Check if PPTX file exists
         run: |
