@@ -42,7 +42,8 @@ jobs:
           sudo apt install -y tree
           tree -L 2
           sudo apt install -y libreoffice
-          sudo apt install -y imagemagick
+          # sudo apt install -y imagemagick
+          sudo apt install poppler-utils
 
       - name: Check if PPTX file exists
         run: |
@@ -59,8 +60,8 @@ jobs:
             echo "PDF conversion failed"
             exit 1
           fi
-          convert -density 300 quiz.pdf -quality 90 quiz-%d.png
-
+          # convert -density 300 quiz.pdf -quality 90 quiz-%d.png
+          pdftoppm -png quiz.pdf quiz
       # - name: Upload Image
       #   uses: actions/upload-artifact@v2
       #   with:
