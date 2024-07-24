@@ -19,19 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      # - name: ls
-      #   run: |
-      #     ls -la
-      #     pwd
-      #     cd ..
-      #     pwd
-      #     ls -la
-      #     cd utils
-      #     pwd
-      #     cd quiz
-      #     pwd
-      #     ls -la
-
       - name: Update ImageMagick policy
         run: |
           sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
@@ -42,8 +29,10 @@ jobs:
           sudo apt install -y tree
           tree -L 2
           sudo apt install -y libreoffice
-          # sudo apt install -y imagemagick
           sudo apt install poppler-utils
+          sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
+          # 必要なフォントをインストール
+          sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
 
       - name: Check if PPTX file exists
         run: |
@@ -60,13 +49,7 @@ jobs:
             echo "PDF conversion failed"
             exit 1
           fi
-          # convert -density 300 quiz.pdf -quality 90 quiz-%d.png
           pdftoppm -png quiz.pdf quiz
-      # - name: Upload Image
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: quiz
-      #     path: quiz-*.png
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
