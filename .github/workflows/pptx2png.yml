@@ -54,6 +54,7 @@ jobs:
         run: |
           ls -la
           libreoffice --headless --convert-to pdf quiz.pptx --outdir .
+          ls -la
           if [ ! -f "quiz.pdf" ]; then
             echo "PDF conversion failed"
             exit 1
