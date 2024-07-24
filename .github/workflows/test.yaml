@@ -4,26 +4,33 @@ on:
   workflow_dispatch:
 
 jobs:
+  
   build:
+
     runs-on: ubuntu-latest
+    
     permissions:
       contents: write
-    # defaults:
-    #   run:
-    #     working-directory: ./quiz
+    
+    defaults:
+      run:
+        working-directory: ./quiz
+    
     steps:
-      - name: ls
-        run: |
-          ls -la
-          pwd
-          cd ..
-          pwd
-          ls -la
-          cd utils
-          pwd
-          cd quiz
-          pwd
-          ls -la
+      - uses: actions/checkout@v2
+      
+      # - name: ls
+      #   run: |
+      #     ls -la
+      #     pwd
+      #     cd ..
+      #     pwd
+      #     ls -la
+      #     cd utils
+      #     pwd
+      #     cd quiz
+      #     pwd
+      #     ls -la
 
       - name: Install dependencies
         run: |
