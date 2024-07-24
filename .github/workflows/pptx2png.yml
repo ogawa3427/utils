@@ -4,14 +4,21 @@ on:
   workflow_dispatch:
 
 jobs:
+  
   build:
+
     runs-on: ubuntu-latest
+    
     permissions:
       contents: write
+    
     defaults:
       run:
-        working-directory: ./bingo
+        working-directory: ./quiz
+    
     steps:
+      - uses: actions/checkout@v2
+      
       # - name: ls
       #   run: |
       #     ls -la
