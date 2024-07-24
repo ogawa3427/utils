@@ -32,6 +32,10 @@ jobs:
       #     pwd
       #     ls -la
 
+      - name: Update ImageMagick policy
+        run: |
+          sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
+
       - name: Install dependencies
         run: |
           sudo apt update
