@@ -49,7 +49,7 @@ jobs:
       - name: Convert PPTX to Image
         run: |
           ls -la
-          libreoffice --headless --convert-to pdf quiz.pptx --outdir quiz
+          libreoffice --headless --convert-to pdf quiz.pptx --outdir .
           if [ ! -f "quiz.pdf" ]; then
             echo "PDF conversion failed"
             exit 1
