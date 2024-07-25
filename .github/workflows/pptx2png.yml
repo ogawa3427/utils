@@ -67,7 +67,7 @@ jobs:
         uses: actions/github-script@v4
         with:
           script: |
-            const { context, github } = require('@actions/github');
+            { context, github } = require('@actions/github');
             github.repos.createCommitStatus({
               ...context.repo,
               sha: context.sha,
