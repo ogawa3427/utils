@@ -54,6 +54,12 @@ jobs:
   #         fi
   #         pdftoppm -png quiz.pdf quiz
 
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello world action
+        run: echo "Hello world"
+
   status_check:
     needs: build
     runs-on: ubuntu-latest
