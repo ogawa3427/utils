@@ -1,8 +1,8 @@
 name: Pptx to Image
 on:
   pull_request:
-    paths:
-      - 'quiz/quiz.pptx'
+    # paths:
+    #   - 'quiz/quiz.pptx'
     types: [opened, synchronize, reopened]
   workflow_dispatch:
   push:
