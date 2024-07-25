@@ -30,7 +30,7 @@ jobs:
           sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
 
       - name: Enable Pull Request Automerge
-        uses: peter-evans/enable-pull-request-automerge
+        uses: peter-evans/enable-pull-request-automerge@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           merge_method: squash
