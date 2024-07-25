@@ -60,6 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write  # Added this line
+      contents: write
     steps:
       - name: Enable Pull Request Automerge
         uses: peter-evans/enable-pull-request-automerge@v2
