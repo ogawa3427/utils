@@ -1,39 +1,29 @@
 name: Pptx to Image
 on:
-  # push:
   pull_request:
     paths:
       - 'quiz/quiz.pptx'
     types: [opened, synchronize, reopened]
   workflow_dispatch:
+  push:
+    paths:
+      - 'quiz/*'
 
 jobs:
-  
   build:
-
     if: github.actor == 'ogawa3427' || github.actor == 'MAPLE0212'
-
     runs-on: ubuntu-latest
-    
     permissions:
       contents: write
-    
     defaults:
       run:
         working-directory: ./quiz
-    
     steps:
       - uses: actions/checkout@v2
       
       - name: Update ImageMagick policy
         run: |
           sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
-
-      - name: Enable Pull Request Automerge
-        uses: peter-evans/enable-pull-request-automerge@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          merge_method: squash
 
       - name: Install dependencies
         run: |
@@ -50,6 +40,7 @@ jobs:
         run: |
           if [ ! -f "quiz.pptx" ]; then
             echo "PPTX file does not exist"
+            exit 1
           fi
 
       - name: Convert PPTX to Image
@@ -63,6 +54,26 @@ jobs:
           fi
           pdftoppm -png quiz.pdf quiz
 
+  enable_automerge:
+    if: github.event_name == 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write  # Added this line
+      contents: write
+    steps:
+      - name: Enable Pull Request Automerge
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          merge-method: squash
+          pull-request-number: ${{ github.event.pull_request.number }}
+
+  commit_changes:
+    needs: [build, enable_automerge]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
