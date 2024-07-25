@@ -58,6 +58,8 @@ jobs:
     if: github.event_name == 'pull_request'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write  # Added this line
     steps:
       - name: Enable Pull Request Automerge
         uses: peter-evans/enable-pull-request-automerge@v2
