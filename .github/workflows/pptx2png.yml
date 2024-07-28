@@ -60,22 +60,30 @@ jobs:
   status_check:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+      pull-requests: write
+      statuses: write
+      checks: write
     steps:
       - name: Check status
         run: echo "Status check passed"
+      - name: Authenticate GitHub CLI
+        run: gh auth login --with-token <<< $GITHUB_TOKEN
       - name: Create status check
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Creating status check"
-          curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
-          -d '{"state":"success","context":"Status Check","description":"The build passed successfully","target_url":"${{ github.event.pull_request.html_url }}"}'
-          curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
-          -d '{"state":"success","context":"Check","description":"The check passed successfully","target_url":"${{ github.event.pull_request.html_url }}"}'
+          gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
+            -f state=success \
+            -f context="Status Check" \
+            -f description="The build passed successfully" \
+            -f target_url="${{ github.event.pull_request.html_url }}"
+          gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
+            -f state=success \
+            -f context="Check" \
+            -f description="The check passed successfully" \
+            -f target_url="${{ github.event.pull_request.html_url }}"
 
   enable_automerge:
     if: github.event_name == 'pull_request'
