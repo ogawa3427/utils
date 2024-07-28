@@ -65,18 +65,12 @@ jobs:
       - name: Check status
         run: echo "Status check passed"
       - name: Create status check
-        uses: actions/github-script@v4
-        with:
-          script: |
-            github.repos.createCommitStatus({
-              ...context.repo,
-              sha: context.sha,
-              state: 'success',
-              context: 'Status Check',
-              description: 'The build passed successfully',
-              target_url: context.payload.pull_request.html_url
-            });
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Creating status check"
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
+          -d '{"state":"success","context":"Status Check","description":"The build passed successfully","target_url":"${{ github.event.pull_request.html_url }}"}'
 
   enable_automerge:
     if: github.event_name == 'pull_request'
