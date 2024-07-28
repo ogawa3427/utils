@@ -10,49 +10,53 @@ on:
       - 'quiz/*'
 
 jobs:
-  # build:
-  #   if: github.actor == 'ogawa3427' || github.actor == 'MAPLE0212'
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: write
-  #   defaults:
-  #     run:
-  #       working-directory: ./quiz
-  #   steps:
-  #     - uses: actions/checkout@v2
+  build:
+    if: github.actor == 'ogawa3427' || github.actor == 'MAPLE0212'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      statuses: write
+    defaults:
+      run:
+        working-directory: ./quiz
+    steps:
+      - uses: actions/checkout@v2
       
-  #     - name: Update ImageMagick policy
-  #       run: |
-  #         sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
+      - name: hello
+        run: echo "hello"
+        
+      # - name: Update ImageMagick policy
+      #   run: |
+      #     sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
 
-  #     - name: Install dependencies
-  #       run: |
-  #         sudo apt update
-  #         sudo apt install -y tree
-  #         tree -L 2
-  #         sudo apt install -y libreoffice
-  #         sudo apt install poppler-utils
-  #         sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
-  #         # 必要なフォントをインストール
-  #         sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
+      # - name: Install dependencies
+      #   run: |
+      #     sudo apt update
+      #     sudo apt install -y tree
+      #     tree -L 2
+      #     sudo apt install -y libreoffice
+      #     sudo apt install poppler-utils
+      #     sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
+      #     # 必要なフォントをインストール
+      #     sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
 
-  #     - name: Check if PPTX file exists
-  #       run: |
-  #         if [ ! -f "quiz.pptx" ]; then
-  #           echo "PPTX file does not exist"
-  #           exit 1
-  #         fi
+      # - name: Check if PPTX file exists
+      #   run: |
+      #     if [ ! -f "quiz.pptx" ]; then
+      #       echo "PPTX file does not exist"
+      #       exit 1
+      #     fi
 
-  #     - name: Convert PPTX to Image
-  #       run: |
-  #         ls -la
-  #         libreoffice --headless --convert-to pdf quiz.pptx --outdir .
-  #         ls -la
-  #         if [ ! -f "quiz.pdf" ]; then
-  #           echo "PDF conversion failed"
-  #           exit 1
-  #         fi
-  #         pdftoppm -png quiz.pdf quiz
+      # - name: Convert PPTX to Image
+      #   run: |
+      #     ls -la
+      #     libreoffice --headless --convert-to pdf quiz.pptx --outdir .
+      #     ls -la
+      #     if [ ! -f "quiz.pdf" ]; then
+      #       echo "PDF conversion failed"
+      #       exit 1
+      #     fi
+      #     pdftoppm -png quiz.pdf quiz
 
   status_check:
     needs: build
@@ -61,18 +65,12 @@ jobs:
       - name: Check status
         run: echo "Status check passed"
       - name: Create status check
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const { context, github } = require('@actions/github');
-            github.repos.createCommitStatus({
-              ...context.repo,
-              sha: context.sha,
-              state: 'success',
-              context: 'Status Check',
-              description: 'The build passed successfully',
-              target_url: context.payload.pull_request.html_url
-            });
+        run: |
+          echo "Creating status check"
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
+          -d '{"state":"success","context":"Status Check","description":"The build passed successfully","target_url":"${{ github.event.pull_request.html_url }}"}'
 
   enable_automerge:
     if: github.event_name == 'pull_request'
