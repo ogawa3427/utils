@@ -91,6 +91,7 @@ jobs:
       pull-requests: write
       contents: write
     steps:
+      - uses: actions/checkout@v2  # リポジトリをチェックアウト
       - name: Set up GitHub CLI
         run: echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
       - name: merge
