@@ -20,7 +20,7 @@ jobs:
       
       - name: Create new branch
         run: |
-          git checkout -b new-branch
+          git checkout -b new-branch-${{ github.run_id }}
 
       - name: hello
         run: echo "hello"
@@ -48,7 +48,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "AUTO Convert PPTX to Image"
-          branch: new-branch
+          branch: new-branch-${{ github.run_id }}
           title: "AUTO Convert PPTX to Image"
           body: "This PR was automatically created by GitHub Actions."
 
