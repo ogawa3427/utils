@@ -97,7 +97,7 @@ jobs:
           gh pr close ${{ github.event.number }}
 
   commit_changes:
-    needs: [build, enable_automerge]
+    needs: [build, merge]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
