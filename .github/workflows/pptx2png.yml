@@ -8,13 +8,6 @@ on:
   #     - 'quiz/*'
 
 jobs:
-  followcommit:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.actor == '
-    steps:
-      - name: Follow commit
-        run: |
-
   build:
     if: (github.actor == 'ogawa3427' || github.actor == 'MAPLE0212') && github.event_name == 'pull_request'
     runs-on: ubuntu-latest
