@@ -70,8 +70,6 @@ jobs:
     steps:
       - name: Check status
         run: echo "Status check passed"
-      # - name: Authenticate GitHub CLI
-      #   run: echo $GITHUB_TOKEN | gh auth login --with-token
       - name: Create status check
         run: |
           gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
@@ -85,7 +83,7 @@ jobs:
             -f description="The check passed successfully" \
             -f target_url="${{ github.event.pull_request.html_url }}"
 
-  enable_automerge:
+  merge:
     if: github.event_name == 'pull_request'
     needs: [build, status_check]
     runs-on: ubuntu-latest
@@ -93,15 +91,13 @@ jobs:
       pull-requests: write
       contents: write
     steps:
-      - name: Enable Pull Request Automerge
-        uses: peter-evans/enable-pull-request-automerge@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: squash
-          pull-request-number: ${{ github.event.pull_request.number }}
+      - name: merge
+        run: |
+          gh pr merge ${{ github.event.number }} --squash --auto
+          gh pr close ${{ github.event.number }}
 
   commit_changes:
-    needs: [build, enable_automerge]
+    needs: [build, merge]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
