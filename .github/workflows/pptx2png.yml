@@ -161,4 +161,4 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "AUTO Convert PPTX to Image"
-          git push
+          git push origin HEAD:master
