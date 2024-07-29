@@ -87,6 +87,8 @@ jobs:
           # gh pr close ${{ github.event.number }}
 
   convert:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     needs: [merge]
     steps:
@@ -155,5 +157,8 @@ jobs:
       
       - name: Create a commit
         run: |
-          gh commit create -m "AUTO Convert PPTX to Image" -F - <<EOF
-          
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "AUTO Convert PPTX to Image"
+          git push
