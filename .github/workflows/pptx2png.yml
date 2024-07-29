@@ -9,53 +9,38 @@ on:
 
 jobs:
   build:
-    if: github.actor == 'ogawa3427' || github.actor == 'MAPLE0212'
+    if: (github.actor == 'ogawa3427' || github.actor == 'MAPLE0212') && github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: write
       statuses: write
       checks: write
-    defaults:
-      run:
-        working-directory: ./quiz
+    # defaults:
+    #   run:
+    #     working-directory: ./quiz
     steps:
       - uses: actions/checkout@v2
       
       - name: hello
         run: echo "hello"
-        
-      # - name: Update ImageMagick policy
-      #   run: |
-      #     sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
 
-      # - name: Install dependencies
-      #   run: |
-      #     sudo apt update
-      #     sudo apt install -y tree
-      #     tree -L 2
-      #     sudo apt install -y libreoffice
-      #     sudo apt install poppler-utils
-      #     sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
-      #     # 必要なフォントをインストール
-      #     sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
+      - name: check changed files
+        id: check_changed_files
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { data: pullRequest } = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+            const changedFiles = pullRequest.files.map(file => file.filename);
+            const allowedFiles = ["2024quiz/quiz.pptx", "2024answer/answer.pptx"];
+            const isAllowed = changedFiles.every(file => allowedFiles.includes(file));
 
-      # - name: Check if PPTX file exists
-      #   run: |
-      #     if [ ! -f "quiz.pptx" ]; then
-      #       echo "PPTX file does not exist"
-      #       exit 1
-      #     fi
-
-      # - name: Convert PPTX to Image
-      #   run: |
-      #     ls -la
-      #     libreoffice --headless --convert-to pdf quiz.pptx --outdir .
-      #     ls -la
-      #     if [ ! -f "quiz.pdf" ]; then
-      #       echo "PDF conversion failed"
-      #       exit 1
-      #     fi
-      #     pdftoppm -png quiz.pdf quiz
+            if (!isAllowed) {
+              core.setFailed('Only changes to 2024quiz/quiz.pptx or 2024answer/answer.pptx are allowed');
+            }
 
   status_check:
     needs: build
@@ -101,17 +86,72 @@ jobs:
           gh pr merge ${{ github.event.number }} --squash --auto
           # gh pr close ${{ github.event.number }}
 
-  commit_changes:
-    needs: [build, merge]
+  convert:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Convert PPTX to Image"
-          commit_user_name: "github-actions[bot]"
-          commit_user_email: "github-actions[bot]@users.noreply.github.com"
-          commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
-          branch: ${{ github.ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update ImageMagick policy
+        run: |
+          sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y tree
+          tree -L 2
+          sudo apt install -y libreoffice
+          sudo apt install poppler-utils
+          sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
+          # 必要なフォントをインストール
+          sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
+
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: -Q- Check if PPTX file exists
+        run: |
+          ls -la
+          cd 2024quiz
+          if [ ! -f "quiz.pptx" ]; then
+            echo "PPTX file does not exist"
+            exit 1
+          fi
+
+      - name: -Q- Convert PPTX to Image
+        run: |
+          ls -la
+          libreoffice --headless --convert-to pdf quiz.pptx --outdir .
+          ls -la
+          if [ ! -f "quiz.pdf" ]; then
+            echo "PDF conversion failed"
+            exit 1
+          fi
+          pdftoppm -png quiz.pdf quiz
+
+      - name: -A- Check if PPTX file exists
+        run: |
+          ls -la
+          cd ../2024answer
+          if [ ! -f "answer.pptx" ]; then
+            echo "PPTX file does not exist"
+            exit 1
+          fi
+
+      - name: -A- Convert PPTX to Image
+        run: |
+          ls -la
+          cd ../2024answer
+          libreoffice --headless --convert-to pdf answer.pptx --outdir .
+          ls -la
+          if [ ! -f "answer.pdf" ]; then
+            echo "PDF conversion failed"
+            exit 1
+          fi
+          pdftoppm -png answer.pdf answer
+
+      - name: Set up GitHub CLI
+        run: echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
+      
+      - name: Create a commit
+        run: |
+          gh commit create -m "AUTO Convert PPTX to Image" -F - <<EOF
+          
