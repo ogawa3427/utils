@@ -29,12 +29,12 @@ jobs:
         uses: actions/github-script@v4
         with:
           script: |
-            const { data: pullRequest } = await github.pulls.get({
+            const { data: pullRequestFiles } = await github.pulls.listFiles({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.payload.pull_request.number
             });
-            const changedFiles = pullRequest.files.map(file => file.filename);
+            const changedFiles = pullRequestFiles.map(file => file.filename);
             const allowedFiles = ["2024quiz/quiz.pptx", "2024answer/answer.pptx"];
             const isAllowed = changedFiles.every(file => allowedFiles.includes(file));
 
