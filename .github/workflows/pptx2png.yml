@@ -88,6 +88,7 @@ jobs:
 
   convert:
     runs-on: ubuntu-latest
+    needs: [merge]
     steps:
       - name: Update ImageMagick policy
         run: |
@@ -119,6 +120,7 @@ jobs:
       - name: -Q- Convert PPTX to Image
         run: |
           ls -la
+          cd 2024quiz
           libreoffice --headless --convert-to pdf quiz.pptx --outdir .
           ls -la
           if [ ! -f "quiz.pdf" ]; then
@@ -130,7 +132,7 @@ jobs:
       - name: -A- Check if PPTX file exists
         run: |
           ls -la
-          cd ../2024answer
+          cd 2024answer
           if [ ! -f "answer.pptx" ]; then
             echo "PPTX file does not exist"
             exit 1
@@ -139,7 +141,7 @@ jobs:
       - name: -A- Convert PPTX to Image
         run: |
           ls -la
-          cd ../2024answer
+          cd 2024answer
           libreoffice --headless --convert-to pdf answer.pptx --outdir .
           ls -la
           if [ ! -f "answer.pdf" ]; then
