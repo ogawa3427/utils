@@ -87,6 +87,7 @@ jobs:
           # gh pr close ${{ github.event.number }}
 
   convert:
+    needs: [build, merge]
     runs-on: ubuntu-latest
     steps:
       - name: Update ImageMagick policy
