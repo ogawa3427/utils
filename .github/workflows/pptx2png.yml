@@ -5,80 +5,80 @@ on:
   workflow_dispatch:
 
 jobs:
-  # build:
-  #   if: (github.actor == 'ogawa3427' || github.actor == 'MAPLE0212') && github.event_name == 'pull_request'
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: write
-  #     statuses: write
-  #     checks: write
-  #   steps:
-  #     - uses: actions/checkout@v2
+  build:
+    if: (github.actor == 'ogawa3427' || github.actor == 'MAPLE0212') && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      statuses: write
+      checks: write
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: hello
-  #       run: echo "hello"
+      - name: hello
+        run: echo "hello"
 
-  #     - name: check changed files
-  #       id: check_changed_files
-  #       uses: actions/github-script@v4
-  #       with:
-  #         script: |
-  #           const { data: pullRequestFiles } = await github.pulls.listFiles({
-  #             owner: context.repo.owner,
-  #             repo: context.repo.repo,
-  #             pull_number: context.payload.pull_request.number
-  #           });
-  #           const changedFiles = pullRequestFiles.map(file => file.filename);
-  #           const allowedFiles = ["2024quiz/quiz.pptx", "2024answer/answer.pptx"];
-  #           const isAllowed = changedFiles.every(file => allowedFiles.includes(file));
+      - name: check changed files
+        id: check_changed_files
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { data: pullRequestFiles } = await github.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+            const changedFiles = pullRequestFiles.map(file => file.filename);
+            const allowedFiles = ["2024quiz/quiz.pptx", "2024answer/answer.pptx"];
+            const isAllowed = changedFiles.every(file => allowedFiles.includes(file));
 
-  #           if (!isAllowed) {
-  #             core.setFailed('Only changes to 2024quiz/quiz.pptx or 2024answer/answer.pptx are allowed');
-  #           }
+            if (!isAllowed) {
+              core.setFailed('Only changes to 2024quiz/quiz.pptx or 2024answer/answer.pptx are allowed');
+            }
 
-  # status_check:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #   permissions:
-  #     contents: write
-  #     pull-requests: write
-  #     statuses: write
-  #     checks: write
-  #   steps:
-  #     - name: Check status
-  #       run: echo "Status check passed"
-  #     - name: Create status check
-  #       run: |
-  #         gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
-  #           -f state=success \
-  #           -f context="Status Check" \
-  #           -f description="The build passed successfully" \
-  #           -f target_url="${{ github.event.pull_request.html_url }}"
-  #         gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
-  #           -f state=success \
-  #           -f context="Check" \
-  #           -f description="The check passed successfully" \
-  #           -f target_url="${{ github.event.pull_request.html_url }}"
+  status_check:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+      pull-requests: write
+      statuses: write
+      checks: write
+    steps:
+      - name: Check status
+        run: echo "Status check passed"
+      - name: Create status check
+        run: |
+          gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
+            -f state=success \
+            -f context="Status Check" \
+            -f description="The build passed successfully" \
+            -f target_url="${{ github.event.pull_request.html_url }}"
+          gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
+            -f state=success \
+            -f context="Check" \
+            -f description="The check passed successfully" \
+            -f target_url="${{ github.event.pull_request.html_url }}"
 
-  # merge:
-  #   if: github.event_name == 'pull_request'
-  #   needs: [build, status_check]
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     pull-requests: write
-  #     contents: write
-  #   steps:
-  #     - uses: actions/checkout@v2
+  merge:
+    if: github.event_name == 'pull_request'
+    needs: [build, status_check]
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: Set up GitHub CLI
-  #       run: echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
-  #     - name: merge
-  #       env:
-  #         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       run: |
-  #         gh pr merge ${{ github.event.pull_request.number }} --squash --auto
+      - name: Set up GitHub CLI
+        run: echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
+      - name: merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} --squash --auto
 
   convert:
     permissions:
@@ -109,63 +109,63 @@ jobs:
           touch a.txt
           echo $RUN_ID > a.txt
 
-      # - name: Update ImageMagick policy
-      #   run: |
-      #     sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
+      - name: Update ImageMagick policy
+        run: |
+          sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
 
-      # - name: Install dependencies
-      #   run: |
-      #     sudo apt update
-      #     sudo apt install -y tree
-      #     tree -L 2
-      #     sudo apt install -y libreoffice
-      #     sudo apt install poppler-utils
-      #     sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y tree
+          tree -L 2
+          sudo apt install -y libreoffice
+          sudo apt install poppler-utils
+          sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
 
-      # - name: checkout
-      #   uses: actions/checkout@v2
+      - name: checkout
+        uses: actions/checkout@v2
 
-      # - name: -Q- Check if PPTX file exists
-      #   run: |
-      #     ls -la
-      #     cd 2024quiz
-      #     if [ ! -f "quiz.pptx" ]; then
-      #       echo "PPTX file does not exist"
-      #       exit 1
-      #     fi
+      - name: -Q- Check if PPTX file exists
+        run: |
+          ls -la
+          cd 2024quiz
+          if [ ! -f "quiz.pptx" ]; then
+            echo "PPTX file does not exist"
+            exit 1
+          fi
 
-      # - name: -Q- Convert PPTX to Image
-      #   run: |
-      #     ls -la
-      #     cd 2024quiz
-      #     libreoffice --headless --convert-to pdf quiz.pptx --outdir .
-      #     ls -la
-      #     if [ ! -f "quiz.pdf" ]; then
-      #       echo "PDF conversion failed"
-      #       exit 1
-      #     fi
-      #     pdftoppm -png quiz.pdf quiz
+      - name: -Q- Convert PPTX to Image
+        run: |
+          ls -la
+          cd 2024quiz
+          libreoffice --headless --convert-to pdf quiz.pptx --outdir .
+          ls -la
+          if [ ! -f "quiz.pdf" ]; then
+            echo "PDF conversion failed"
+            exit 1
+          fi
+          pdftoppm -png quiz.pdf quiz
 
-      # - name: -A- Check if PPTX file exists
-      #   run: |
-      #     ls -la
-      #     cd 2024answer
-      #     if [ ! -f "answer.pptx" ]; then
-      #       echo "PPTX file does not exist"
-      #       exit 1
-      #     fi
+      - name: -A- Check if PPTX file exists
+        run: |
+          ls -la
+          cd 2024answer
+          if [ ! -f "answer.pptx" ]; then
+            echo "PPTX file does not exist"
+            exit 1
+          fi
 
-      # - name: -A- Convert PPTX to Image
-      #   run: |
-      #     ls -la
-      #     cd 2024answer
-      #     libreoffice --headless --convert-to pdf answer.pptx --outdir .
-      #     ls -la
-      #     if [ ! -f "answer.pdf" ]; then
-      #       echo "PDF conversion failed"
-      #       exit 1
-      #     fi
-      #     pdftoppm -png answer.pdf answer
+      - name: -A- Convert PPTX to Image
+        run: |
+          ls -la
+          cd 2024answer
+          libreoffice --headless --convert-to pdf answer.pptx --outdir .
+          ls -la
+          if [ ! -f "answer.pdf" ]; then
+            echo "PDF conversion failed"
+            exit 1
+          fi
+          pdftoppm -png answer.pdf answer
 
       - name: Set up GitHub CLI
         run: |
