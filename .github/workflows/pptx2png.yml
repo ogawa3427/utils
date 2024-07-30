@@ -108,64 +108,69 @@ jobs:
           git checkout master
           git pull origin master
           git checkout pptx-convert-${{ github.run_id }}
-
-      - name: Update ImageMagick policy
+      
+      - name: make dummy files
         run: |
-          sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
+          touch a.txt
+          echo ${github.run_id} > a.txt
 
-      - name: Install dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y tree
-          tree -L 2
-          sudo apt install -y libreoffice
-          sudo apt install poppler-utils
-          sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
+      # - name: Update ImageMagick policy
+      #   run: |
+      #     sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
 
-      - name: checkout
-        uses: actions/checkout@v2
+      # - name: Install dependencies
+      #   run: |
+      #     sudo apt update
+      #     sudo apt install -y tree
+      #     tree -L 2
+      #     sudo apt install -y libreoffice
+      #     sudo apt install poppler-utils
+      #     sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
 
-      - name: -Q- Check if PPTX file exists
-        run: |
-          ls -la
-          cd 2024quiz
-          if [ ! -f "quiz.pptx" ]; then
-            echo "PPTX file does not exist"
-            exit 1
-          fi
+      # - name: checkout
+      #   uses: actions/checkout@v2
 
-      - name: -Q- Convert PPTX to Image
-        run: |
-          ls -la
-          cd 2024quiz
-          libreoffice --headless --convert-to pdf quiz.pptx --outdir .
-          ls -la
-          if [ ! -f "quiz.pdf" ]; then
-            echo "PDF conversion failed"
-            exit 1
-          fi
-          pdftoppm -png quiz.pdf quiz
+      # - name: -Q- Check if PPTX file exists
+      #   run: |
+      #     ls -la
+      #     cd 2024quiz
+      #     if [ ! -f "quiz.pptx" ]; then
+      #       echo "PPTX file does not exist"
+      #       exit 1
+      #     fi
 
-      - name: -A- Check if PPTX file exists
-        run: |
-          ls -la
-          cd 2024answer
-          if [ ! -f "answer.pptx" ]; then
-            echo "PPTX file does not exist"
-            exit 1
-          fi
+      # - name: -Q- Convert PPTX to Image
+      #   run: |
+      #     ls -la
+      #     cd 2024quiz
+      #     libreoffice --headless --convert-to pdf quiz.pptx --outdir .
+      #     ls -la
+      #     if [ ! -f "quiz.pdf" ]; then
+      #       echo "PDF conversion failed"
+      #       exit 1
+      #     fi
+      #     pdftoppm -png quiz.pdf quiz
 
-      - name: -A- Convert PPTX to Image
-        run: |
-          ls -la
-          cd 2024answer
-          libreoffice --headless --convert-to pdf answer.pptx --outdir .
-          ls -la
-          if [ ! -f "answer.pdf" ]; then
-            echo "PDF conversion failed"
-            exit 1
-          fi
-          pdftoppm -png answer.pdf answer
+      # - name: -A- Check if PPTX file exists
+      #   run: |
+      #     ls -la
+      #     cd 2024answer
+      #     if [ ! -f "answer.pptx" ]; then
+      #       echo "PPTX file does not exist"
+      #       exit 1
+      #     fi
+
+      # - name: -A- Convert PPTX to Image
+      #   run: |
+      #     ls -la
+      #     cd 2024answer
+      #     libreoffice --headless --convert-to pdf answer.pptx --outdir .
+      #     ls -la
+      #     if [ ! -f "answer.pdf" ]; then
+      #       echo "PDF conversion failed"
+      #       exit 1
+      #     fi
+      #     pdftoppm -png answer.pdf answer
 
       - name: Set up GitHub CLI
         run: echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
