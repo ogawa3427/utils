@@ -181,7 +181,7 @@ jobs:
           pwd
           ls -la
           # cd utils
-          git remote add origin https://${{ secrets.GITHUB_TOKEN }}@github.com/ogawa3427/utils.git || true
+          # git remote add origin https://${{ secrets.GITHUB_TOKEN }}@github.com/ogawa3427/utils.git || true
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
