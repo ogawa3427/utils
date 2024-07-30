@@ -32,9 +32,9 @@ jobs:
             const allowedFiles = ["2024quiz/quiz.pptx", "2024answer/answer.pptx"];
             const isAllowed = changedFiles.every(file => allowedFiles.includes(file));
 
-            # if (!isAllowed) {
-            #   core.setFailed('Only changes to 2024quiz/quiz.pptx or 2024answer/answer.pptx are allowed');
-            # }
+            if (!isAllowed) {
+              core.setFailed('Only changes to 2024quiz/quiz.pptx or 2024answer/answer.pptx are allowed');
+            }
 
   status_check:
     needs: build
