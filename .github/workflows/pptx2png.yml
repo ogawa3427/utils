@@ -99,7 +99,7 @@ jobs:
           echo "---"
           git checkout master || git checkout main
           git pull origin master --rebase --strategy-option theirs || git pull origin main --rebase --strategy-option theirs
-          git checkout pptx-convert-${{ github.run_id }}
+          git checkout -b pptx-convert-${{ github.run_id }}
       
       - name: make dummy files
         run: |
