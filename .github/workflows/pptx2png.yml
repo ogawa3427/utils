@@ -100,6 +100,7 @@ jobs:
           git checkout master || git checkout main
           git pull origin master --rebase --strategy-option theirs || git pull origin main --rebase --strategy-option theirs
           git checkout -b pptx-convert-${{ github.run_id }}
+          git branch   
       
       - name: make dummy files
         env:
@@ -108,6 +109,8 @@ jobs:
           cd utils
           touch a.txt
           echo $RUN_ID > a.txt
+
+          git branch
 
       - name: Update ImageMagick policy
         run: |
