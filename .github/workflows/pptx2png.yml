@@ -92,6 +92,7 @@ jobs:
 
       - name: pull and checkout
         run: |
+          cd utils
           git branch -a
           echo "---"
           git branch -r
@@ -102,6 +103,7 @@ jobs:
       
       - name: make dummy files
         run: |
+          cd utils
           touch a.txt
           echo ${github.run_id} > a.txt
 
@@ -164,10 +166,13 @@ jobs:
       #     pdftoppm -png answer.pdf answer
 
       - name: Set up GitHub CLI
-        run: echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
+        run: |
+          cd utils
+          echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
       
       - name: Create a commit
         run: |
+          cd utils
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
