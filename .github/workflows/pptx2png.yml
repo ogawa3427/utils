@@ -211,6 +211,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr merge ${{ github.event.pull_request.number }} --squash --auto
-          CURR_NUM = ${{ github.event.pull_request.number }}
-          NEXT_NUM = ${{ github.event.pull_request.number + 1 }}
+          CURR_NUM=${{ github.event.pull_request.number }}
+          NEXT_NUM=$((CURR_NUM + 1))
           gh pr merge $NEXT_NUM --squash --auto
