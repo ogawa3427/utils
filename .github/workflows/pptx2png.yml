@@ -140,7 +140,7 @@ jobs:
       - name: -Q- Convert PPTX to Image
         run: |
           ls -la
-          cd 2024quiz
+          cd utils/2024quiz
           libreoffice --headless --convert-to pdf quiz.pptx --outdir .
           ls -la
           if [ ! -f "quiz.pdf" ]; then
