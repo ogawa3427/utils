@@ -125,8 +125,8 @@ jobs:
           sudo apt install poppler-utils
           sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
 
-      - name: checkout
-        uses: actions/checkout@v2
+      # - name: checkout
+      #   uses: actions/checkout@v2
 
       - name: -Q- Check if PPTX file exists
         run: |
