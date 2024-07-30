@@ -46,6 +46,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "AUTO Convert PPTX to Image"
           branch: new-branch-${{ github.run_id }}
+          base: master
           title: "AUTO Convert PPTX to Image"
           body: "This PR was automatically created by GitHub Actions."
 
