@@ -91,6 +91,10 @@ jobs:
 
       - name: pull and checkout
         run: |
+          git branch -a
+          echo "---"
+          git branch -r
+          echo "---"
           git checkout master || git checkout main
           git pull origin master --rebase --strategy-option theirs || git pull origin main --rebase --strategy-option theirs
           git checkout pptx-convert-${{ github.run_id }}
