@@ -169,7 +169,7 @@ jobs:
 
       - name: Set up GitHub CLI
         run: |
-          cd utils
+          # cd utils
           echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
       
       - name: Create a commit
