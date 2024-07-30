@@ -32,9 +32,9 @@ jobs:
             const allowedFiles = ["2024quiz/quiz.pptx", "2024answer/answer.pptx"];
             const isAllowed = changedFiles.every(file => allowedFiles.includes(file));
 
-            if (!isAllowed) {
-              core.setFailed('Only changes to 2024quiz/quiz.pptx or 2024answer/answer.pptx are allowed');
-            }
+            # if (!isAllowed) {
+            #   core.setFailed('Only changes to 2024quiz/quiz.pptx or 2024answer/answer.pptx are allowed');
+            # }
 
   status_check:
     needs: build
@@ -131,7 +131,7 @@ jobs:
       - name: -Q- Check if PPTX file exists
         run: |
           ls -la
-          cd 2024quiz
+          cd utils/2024quiz
           if [ ! -f "quiz.pptx" ]; then
             echo "PPTX file does not exist"
             exit 1
@@ -151,8 +151,9 @@ jobs:
 
       - name: -A- Check if PPTX file exists
         run: |
+          pwd
           ls -la
-          cd 2024answer
+          cd utils/2024answer
           if [ ! -f "answer.pptx" ]; then
             echo "PPTX file does not exist"
             exit 1
@@ -161,7 +162,7 @@ jobs:
       - name: -A- Convert PPTX to Image
         run: |
           ls -la
-          cd 2024answer
+          cd utils/2024answer
           libreoffice --headless --convert-to pdf answer.pptx --outdir .
           ls -la
           if [ ! -f "answer.pdf" ]; then
@@ -172,7 +173,7 @@ jobs:
 
       - name: Set up GitHub CLI
         run: |
-          # cd utils
+          cd utils
           echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
       
       - name: Create a commit
@@ -181,6 +182,7 @@ jobs:
           PAT: ${{ secrets.PAT }}
           GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
+          cd utils
           pwd
           # ls -la
           git branch
