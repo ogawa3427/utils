@@ -3,18 +3,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
-  # push:
-  #   paths:
-  #     - 'quiz/*'
 
 jobs:
-  followcommit:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.actor == '
-    steps:
-      - name: Follow commit
-        run: |
-
   build:
     if: (github.actor == 'ogawa3427' || github.actor == 'MAPLE0212') && github.event_name == 'pull_request'
     runs-on: ubuntu-latest
@@ -27,7 +17,7 @@ jobs:
       
       - name: Create new branch
         run: |
-          git checkout -b new-branch
+          git checkout -b new-branch-${{ github.run_id }}
 
       - name: hello
         run: echo "hello"
@@ -55,7 +45,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "AUTO Convert PPTX to Image"
-          branch: new-branch
+          branch: new-branch-${{ github.run_id }}
           title: "AUTO Convert PPTX to Image"
           body: "This PR was automatically created by GitHub Actions."
 
@@ -93,15 +83,14 @@ jobs:
       pull-requests: write
       contents: write
     steps:
-      - uses: actions/checkout@v2  # リポジトリをチェックアウト
+      - uses: actions/checkout@v2
       - name: Set up GitHub CLI
         run: echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
       - name: merge
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr merge ${{ github.event.number }} --squash --auto
-          # gh pr close ${{ github.event.number }}
+          gh pr merge ${{ github.event.pull_request.number }} --squash --auto
 
   convert:
     permissions:
@@ -109,6 +98,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: [merge]
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: pull
+        run: |
+          git checkout master
+          git pull origin master
+          git checkout pptx-convert-${{ github.run_id }}
+
       - name: Update ImageMagick policy
         run: |
           sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
@@ -120,8 +118,6 @@ jobs:
           tree -L 2
           sudo apt install -y libreoffice
           sudo apt install poppler-utils
-          sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
-          # 必要なフォントをインストール
           sudo apt install -y fonts-hanazono fonts-ipafont-gothic fonts-ipafont-mincho
 
       - name: checkout
@@ -178,8 +174,9 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "AUTO Convert PPTX to Image"
-          git pull origin master --rebase
-          git push origin HEAD:new-branch
+          git push origin pptx-convert-${{ github.run_id }}
+
+          gh pr create --title "AUTO pptx commit" --body "AUTO pptx commit" --base master --head pptx-convert-${{ github.run_id }}
 
   final_merge:
     needs: [convert]
@@ -195,4 +192,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr merge ${{ github.event.number }} --squash --auto
+          gh pr merge ${{ github.event.pull_request.number }} --squash --auto
