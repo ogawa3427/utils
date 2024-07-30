@@ -18,6 +18,7 @@ jobs:
       - name: Create new branch
         run: |
           git checkout -b new-branch-${{ github.run_id }}
+          git pull origin new-branch-${{ github.run_id }} --rebase
           git push origin new-branch-${{ github.run_id }}
 
       - name: hello
@@ -86,6 +87,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up GitHub CLI
         run: echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
       - name: merge
