@@ -175,15 +175,16 @@ jobs:
       - name: Create a commit
         env:
           RUN_ID: ${{ github.run_id }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAT: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
           cd utils
-          git remote set-url origin https://${{ GH_TOKEN }}@github.com/ogawa3427/utils.git
+          git remote add origin https://${{ secrets.GITHUB_TOKEN }}@github.com/ogawa3427/utils.git || true
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "AUTO Convert PPTX to Image"
-          git push origin pptx-convert-${{ github.run_id }}
+          git push https://${{ secrets.PAT }}@github.com/ogawa3427/utils.git pptx-convert-${{ github.run_id }}
 
           gh pr create --title "AUTO pptx commit" --body "AUTO pptx commit" --base master --head pptx-convert-${{ github.run_id }}
 
