@@ -14,13 +14,6 @@ jobs:
       checks: write
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Create new branch
-        run: |
-          BRANCH_NAME=new-branch-${{ github.run_id }}
-          git checkout -b $BRANCH_NAME || git checkout $BRANCH_NAME
-          git pull origin master --rebase
-          git push origin $BRANCH_NAME
 
       - name: hello
         run: echo "hello"
@@ -106,10 +99,10 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
-      - name: pull
+      - name: pull and checkout
         run: |
           git checkout master
-          git pull origin master
+          git pull origin master --rebase --strategy-option theirs
           git checkout pptx-convert-${{ github.run_id }}
       
       - name: make dummy files
