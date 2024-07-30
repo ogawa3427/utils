@@ -18,6 +18,7 @@ jobs:
       - name: Create new branch
         run: |
           git checkout -b new-branch-${{ github.run_id }}
+          git push origin new-branch-${{ github.run_id }}
 
       - name: hello
         run: echo "hello"
