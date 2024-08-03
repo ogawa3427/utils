@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>一問一答</title>
+    <style>
+        .question {
+            margin-bottom: 20px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>一問一答</h1>
+    <input type="file" id="fileInput" accept=".json">
+    <button onclick="loadQuestions()">ファイルを読み込み</button>
+    <input type="text" id="filename" placeholder="ファイルURL">
+    <button onclick="loadQuestions()">ファイルを読み込み</button>
+    <div id="quiz"></div>
+    <button onclick="checkAnswers()">答え合わせ</button>
+    <div id="results" class="result"></div>
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})">ページ上部にもどる</button>
+    <script>
+        async function loadQuestions() {
+            const fileInput = document.getElementById('fileInput').files[0];
+            const filename = document.getElementById('filename').value;
+            let questions;
+
+            if (fileInput) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    questions = JSON.parse(event.target.result);
+                    displayQuestions(questions);
+                };
+                reader.readAsText(fileInput);
+            } else if (filename) {
+                const response = await fetch(filename);
+                questions = await response.json();
+                displayQuestions(questions);
+            } else {
+                alert('ファイルを選択するか、URLを入力してください。');
+            }
+        }
+
+        function displayQuestions(questions) {
+            const quizContainer = document.getElementById('quiz');
+            quizContainer.innerHTML = ''; // 既存の質問をクリア
+
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <p>${index + 1}. ${q.question}</p>
+                    <label>
+                        <input type="radio" name="q${index}" value="Yes"> Yes
+                    </label>
+                    <label>
+                        <input type="radio" name="q${index}" value="No"> No
+                    </label>
+                `;
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        async function checkAnswers() {
+            const fileInput = document.getElementById('fileInput').files[0];
+            const filename = document.getElementById('filename').value;
+            let questions;
+
+            if (fileInput) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    questions = JSON.parse(event.target.result);
+                    processAnswers(questions);
+                };
+                reader.readAsText(fileInput);
+            } else if (filename) {
+                const response = await fetch(filename);
+                questions = await response.json();
+                processAnswers(questions);
+            } else {
+                alert('ファイルを選択するか、URLを入力してください。');
+            }
+        }
+
+        function processAnswers(questions) {
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = '';
+            let score = 0;
+
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                const questionDiv = document.querySelector(`.question:nth-child(${index + 1})`);
+                if (selected) {
+                    const isCorrect = selected.value === q.answer;
+                    if (isCorrect) score++;
+                    questionDiv.innerHTML = `
+                        <p>${index + 1}. ${q.question}</p>
+                        <p>あなたの答え: ${selected.value} - ${isCorrect ? '⭕正解' : '❌不正解'}</p>
+                        <p>正解: ${q.answer}</p>
+                        <p>説明: ${q.explanation}</p>
+                        <p>ページ: ${q.page}</p>
+                    `;
+                } else {
+                    questionDiv.innerHTML = `
+                        <p>${index + 1}. ${q.question}</p>
+                        <p>あなたの答え: 未回答 -❌不正解</p>
+                        <p>正解: ${q.answer}</p>
+                        <p>説明: ${q.explanation}</p>
+                        <p>ページ: ${q.page}</p>
+                    `;
+                }
+                questionDiv.style.borderRadius = '3px';
+                questionDiv.style.border = '1px solid #000';
+                questionDiv.style.padding = '10px';
+                questionDiv.style.margin = '10px';
+                questionDiv.style.boxShadow = '0 0 10px rgba(0, 0, 0, 1)';
+            });
+
+            const scoreDiv = document.createElement('div');
+            scoreDiv.innerHTML = `<p>スコア: ${score} / ${questions.length}</p>`;
+            scoreDiv.style.borderRadius = '3px';
+            scoreDiv.style.border = '1px solid #000';
+            scoreDiv.style.padding = '10px';
+            scoreDiv.style.margin = '10px';
+            scoreDiv.style.boxShadow = '0 0 10px rgba(0, 0, 0, 1)';
+            resultsContainer.appendChild(scoreDiv);
+        }
+    </script>
+</body>
+</html>
