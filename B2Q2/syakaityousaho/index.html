@@ -1,3 +1,5 @@
+<!-- このPDFの内容に基づいてyes/noの確認問題を30個JSONで出して -->
+<!-- [   {     "question": "あああああ？",     "answer": "No",     "explanation": "あああああ。",     "page": 39   },   {     "question": "いいいいい？",     "answer": "No",     "explanation": "いいいいい。",     "page": 3   } ] こんなかんじのフォーマットで、回答根拠とそれがあるページをつけて -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -19,7 +21,7 @@
     <input type="text" id="filename" placeholder="ファイルURL">
     <button onclick="loadQuestions()">ファイルを読み込み</button>
     <div id="quiz"></div>
-    <button onclick="checkAnswers()">答え合わせ</button>
+    <button onclick="checkAnswers(); window.scrollTo({top: 0, behavior: 'smooth'})">答え合わせ</button>
     <div id="results" class="result"></div>
     <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})">ページ上部にもどる</button>
     <script>
