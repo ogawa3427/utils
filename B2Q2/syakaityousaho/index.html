@@ -12,6 +12,23 @@
         .result {
             margin-top: 20px;
         }
+        .yesnobutton {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        .question label {
+            display: block; /* ラベル全体をブロック要素に */
+            padding: 10px; /* パディングを追加して当たり判定を大きく */
+            cursor: pointer; /* カーソルをポインターに */
+        }
     </style>
 </head>
 <body>
@@ -20,6 +37,7 @@
     <button onclick="loadQuestions()">ファイルを読み込み</button>
     <input type="text" id="filename" placeholder="ファイルURL">
     <button onclick="loadQuestions()">ファイルを読み込み</button>
+    <div id="score-2"></div>
     <div id="quiz"></div>
     <button onclick="checkAnswers(); window.scrollTo({top: 0, behavior: 'smooth'})">答え合わせ</button>
     <button onclick="saveAnswers()">回答を保存</button>
@@ -66,6 +84,11 @@
                         <input type="radio" name="q${index}" value="No" onchange="saveAnswers()"> No
                     </label>
                 `;
+                questionDiv.style.borderRadius = '3px';
+                questionDiv.style.border = '1px solid #000';
+                questionDiv.style.padding = '10px';
+                questionDiv.style.margin = '10px';
+                questionDiv.style.boxShadow = '0 0 10px rgba(0, 0, 0, 1)';
                 quizContainer.appendChild(questionDiv);
             });
         }
@@ -128,19 +151,21 @@
                     if (isCorrect) score++;
                     questionDiv.innerHTML = `
                         <p>${index + 1}. ${q.question}</p>
-                        <p>あなたの答え: ${selected.value} - ${isCorrect ? '⭕正解' : '❌不正解'}</p>
+                        <p id="answer-${index}">あなたの答え: ${selected.value} - ${isCorrect ? '⭕正解' : '❌不正解'}</p>
                         <p>正解: ${q.answer}</p>
                         <p>説明: ${q.explanation}</p>
                         <p>ページ: ${q.page}</p>
                     `;
+                    questionDiv.style.backgroundColor = isCorrect ? 'white' : 'pink';
                 } else {
                     questionDiv.innerHTML = `
                         <p>${index + 1}. ${q.question}</p>
-                        <p>あなたの答え: 未回答 -❌不正解</p>
+                        <p id="answer-${index}">あなたの答え: 未回答 -❌不正解</p>
                         <p>正解: ${q.answer}</p>
                         <p>説明: ${q.explanation}</p>
                         <p>ページ: ${q.page}</p>
                     `;
+                    questionDiv.style.backgroundColor = 'pink';
                 }
                 questionDiv.style.borderRadius = '3px';
                 questionDiv.style.border = '1px solid #000';
@@ -157,6 +182,10 @@
             scoreDiv.style.margin = '10px';
             scoreDiv.style.boxShadow = '0 0 10px rgba(0, 0, 0, 1)';
             resultsContainer.appendChild(scoreDiv);
+            const score2 = document.getElementById('score-2');
+            const scoreDiv2 = scoreDiv.cloneNode(true);
+            score2.innerHTML = '';
+            score2.appendChild(scoreDiv2);
         }
     </script>
 </body>
