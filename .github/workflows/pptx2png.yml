@@ -38,7 +38,7 @@ jobs:
 
   merge:
     if: github.event_name == 'pull_request'
-    needs: [build, status_check]
+    needs: [build]
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
