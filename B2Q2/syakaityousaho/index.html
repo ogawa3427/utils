@@ -22,6 +22,8 @@
     <button onclick="loadQuestions()">ファイルを読み込み</button>
     <div id="quiz"></div>
     <button onclick="checkAnswers(); window.scrollTo({top: 0, behavior: 'smooth'})">答え合わせ</button>
+    <button onclick="saveAnswers()">回答を保存</button>
+    <button onclick="loadSavedAnswers()">回答を読み込み</button>
     <div id="results" class="result"></div>
     <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})">ページ上部にもどる</button>
     <script>
@@ -35,12 +37,14 @@
                 reader.onload = function(event) {
                     questions = JSON.parse(event.target.result);
                     displayQuestions(questions);
+                    loadSavedAnswers();
                 };
                 reader.readAsText(fileInput);
             } else if (filename) {
                 const response = await fetch(filename);
                 questions = await response.json();
                 displayQuestions(questions);
+                loadSavedAnswers();
             } else {
                 alert('ファイルを選択するか、URLを入力してください。');
             }
@@ -56,14 +60,37 @@
                 questionDiv.innerHTML = `
                     <p>${index + 1}. ${q.question}</p>
                     <label>
-                        <input type="radio" name="q${index}" value="Yes"> Yes
+                        <input type="radio" name="q${index}" value="Yes" onchange="saveAnswers()"> Yes
                     </label>
                     <label>
-                        <input type="radio" name="q${index}" value="No"> No
+                        <input type="radio" name="q${index}" value="No" onchange="saveAnswers()"> No
                     </label>
                 `;
                 quizContainer.appendChild(questionDiv);
             });
+        }
+
+        function saveAnswers() {
+            const answers = {};
+            document.querySelectorAll('.question').forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected) {
+                    answers[`q${index}`] = selected.value;
+                }
+            });
+            localStorage.setItem('quizAnswers', JSON.stringify(answers));
+        }
+
+        function loadSavedAnswers() {
+            const savedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
+            if (savedAnswers) {
+                Object.keys(savedAnswers).forEach(key => {
+                    const radio = document.querySelector(`input[name="${key}"][value="${savedAnswers[key]}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                    }
+                });
+            }
         }
 
         async function checkAnswers() {
@@ -85,6 +112,7 @@
             } else {
                 alert('ファイルを選択するか、URLを入力してください。');
             }
+            saveAnswers();
         }
 
         function processAnswers(questions) {
