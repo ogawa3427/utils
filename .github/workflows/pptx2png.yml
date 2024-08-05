@@ -36,35 +36,9 @@ jobs:
               core.setFailed('Only changes to 2024quiz/quiz.pptx or 2024answer/answer.pptx are allowed');
             }
 
-  status_check:
-    needs: build
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    permissions:
-      contents: write
-      pull-requests: write
-      statuses: write
-      checks: write
-    steps:
-      - name: Check status
-        run: echo "Status check passed"
-      - name: Create status check
-        run: |
-          gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
-            -f state=success \
-            -f context="Status Check" \
-            -f description="The build passed successfully" \
-            -f target_url="${{ github.event.pull_request.html_url }}"
-          gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
-            -f state=success \
-            -f context="Check" \
-            -f description="The check passed successfully" \
-            -f target_url="${{ github.event.pull_request.html_url }}"
-
   merge:
     if: github.event_name == 'pull_request'
-    needs: [build, status_check]
+    needs: [build]
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -73,10 +47,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up GitHub CLI
-        run: echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
+        run: echo "${{ secrets.PAT }}" > ~/.gh_token
       - name: merge
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT }}
         run: |
           gh pr merge ${{ github.event.pull_request.number }} --squash --auto
 
@@ -174,7 +148,7 @@ jobs:
       - name: Set up GitHub CLI
         run: |
           cd utils
-          echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
+          echo "${{ secrets.PAT }}" > ~/.gh_token
       
       - name: Create a commit
         env:
@@ -205,10 +179,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up GitHub CLI
-        run: echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
+        run: echo "${{ secrets.PAT }}" > ~/.gh_token
       - name: Merge Pull Request
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT }}
         run: |
           gh pr merge ${{ github.event.pull_request.number }} --squash --auto
           CURR_NUM=${{ github.event.pull_request.number }}
