@@ -1,0 +1,57 @@
+name: Bingo Merge
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'bingo/**'
+  # workflow_dispatch:
+
+jobs:
+  check_changed_files:
+    if: (github.actor == 'ogawa3427' || github.actor == 'KEI-KURO-128')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      statuses: write
+      checks: write
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: hello
+        run: echo "hello"
+
+      - name: check changed files
+        id: check_changed_files
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { data: pullRequestFiles } = await github.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+            const changedFiles = pullRequestFiles.map(file => file.filename);
+            const isAllowed = changedFiles.every(file => file.startsWith('bingo/'));
+
+            if (!isAllowed) {
+              core.setFailed('/bingo/以下のファイルでないものが含まれていたら失敗');
+            }
+
+  merge:
+    if: github.event_name == 'pull_request'
+    needs: [build, status_check]
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up GitHub CLI
+        run: echo "${{ secrets.GITHUB_TOKEN }}" > ~/.gh_token
+      - name: merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} --squash --auto
