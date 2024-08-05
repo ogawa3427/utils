@@ -83,6 +83,9 @@
                     <label>
                         <input type="radio" name="q${index}" value="No" onchange="saveAnswers()"> No
                     </label>
+                    <label>
+                        <input type="radio" name="q${index}" value="Unanswered" onchange="saveAnswers()"> 未回答
+                    </label>
                 `;
                 questionDiv.style.borderRadius = '3px';
                 questionDiv.style.border = '1px solid #000';
