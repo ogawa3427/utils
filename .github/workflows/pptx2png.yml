@@ -36,35 +36,9 @@ jobs:
               core.setFailed('Only changes to 2024quiz/quiz.pptx or 2024answer/answer.pptx are allowed');
             }
 
-  status_check:
-    needs: build
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    permissions:
-      contents: write
-      pull-requests: write
-      statuses: write
-      checks: write
-    steps:
-      - name: Check status
-        run: echo "Status check passed"
-      - name: Create status check
-        run: |
-          gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
-            -f state=success \
-            -f context="Status Check" \
-            -f description="The build passed successfully" \
-            -f target_url="${{ github.event.pull_request.html_url }}"
-          gh api repos/${{ github.repository }}/statuses/${{ github.sha }} \
-            -f state=success \
-            -f context="Check" \
-            -f description="The check passed successfully" \
-            -f target_url="${{ github.event.pull_request.html_url }}"
-
   merge:
     if: github.event_name == 'pull_request'
-    needs: [build, status_check]
+    needs: [build]
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
