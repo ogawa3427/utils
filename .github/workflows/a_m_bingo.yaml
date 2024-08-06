@@ -39,6 +39,7 @@ jobs:
             }
 
   merge:
+    needs: check_changed_files
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
