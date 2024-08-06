@@ -40,7 +40,7 @@ jobs:
 
   merge:
     needs: check_changed_files
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
