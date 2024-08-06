@@ -4,27 +4,45 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Bingo</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
         <style>
-            .bingo-cell {
-                width: 50px;
-                height: 50px;
-                display: inline-block;
-                text-align: center;
-                vertical-align: middle;
-                border: 1px solid #000;
-                line-height: 50px;
+            @keyframes popOut {
+                0% { transform: scale(0) rotate(0deg); opacity: 0; }
+                50% { transform: scale(1.5) rotate(180deg); opacity: 0.7; }
+                80% { transform: scale(1.2) rotate(360deg); opacity: 1; }
+                100% { transform: scale(1) rotate(360deg); opacity: 1; }
             }
-            .bingo-row {
-                display: flex;
+            .bingo-message {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 5em;
+                color: #ff0000;
+                text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 30px #ffff00;
+                display: none;
+                animation: popOut 1s ease-out;
             }
-            .selected {
-                background-color: yellow;
+            .confetti {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 10px;
+                height: 10px;
+                background-color: #fff;
+                animation: confetti 5s ease-out;
+            }
+            @keyframes confetti {
+                0% { transform: translateY(0); }
+                100% { transform: translateY(-100vh); }
             }
         </style>
     </head>
-    <body>
+    <body class="wholebody">
+
+    
         <div class="header">
-            <h1>Bingo</h1>
+            <h1 class="bingo-font">Bingo</h1>
         </div>
         <div class="main-container">
         </div> 
@@ -36,7 +54,9 @@
             <button id="start">Start</button>
             <button id="reset">Reset</button>
         </div>
+        <div id="bingoMessage" class="bingo-message">BINGO!</div>
         <script>
+        
           const miisions = {
             "1": "「好きな動物は何ですか?」",
             "2": "「好きな動物は何ですか?」",
@@ -54,7 +74,7 @@
             "14": "「あっち向いてホイをして勝ってください」",
             "15": "「あっち向いてホイをして勝ってください」",
             "16": "「あっち向いてホイをして勝ってください」",
-            "17": "「行って楽しかった観光地を〇〇学類に聞いて下さい」",
+            "17": "「行っ楽しかった観光地を〇〇学類に聞いて下さい」",
             "18": "「行って楽しかった観光地を〇〇学類に聞いて下さい」",
             "19": "「行って楽しかった観光地を〇〇学類に聞いて下さい」",
             "20": "「金沢大学の改善すべきところは何ですか?」",
@@ -63,7 +83,7 @@
             "23": "「金沢大学の改善すべきところは何ですか?」",
             "24": "「なぜ今の学類を選んだのかを聞いて下さい」",
             "25": " 「なぜ今の学類を選んだのかを聞いて下さい」",
-            "26": "「なぜ今の学類を選んだのかを聞いて下さい」",
+            "26": "「なぜ今��学類を選んだのかを聞いて下さい」",
             "27": "「なぜ今の学類を選んだのかを聞いて下さい」",
             "28": "「今何に力を言えれているのか〇〇教授に言って下さい」",
             "29": "「今何に力を言えれているのか〇〇教授に言って下さい」",
@@ -111,8 +131,57 @@
 
             function toggleCell(event) {
                 const cell = event.target;
-                cell.classList.toggle('selected'); // 'selected' クラスをトグル
+                cell.classList.toggle('selected');
+                checkBingo();
             }
+
+            function checkBingo() {
+                const rows = document.querySelectorAll('.bingo-row');
+                let selectedCount = 0;
+
+                // 選択されたセルの数を数える
+                rows.forEach(row => {
+                    row.querySelectorAll('.bingo-cell').forEach(cell => {
+                        if (cell.classList.contains('selected') || cell.textContent === 'FREE') {
+                            selectedCount++;
+                        }
+                    });
+                });
+
+                // 5つ選択されたらBINGOメッセージを表示
+                if (selectedCount === 5) {
+                    showBingoMessage();
+                }
+            }
+
+            function showBingoMessage() {
+                const bingoMessage = document.getElementById('bingoMessage');
+                bingoMessage.style.display = 'block';
+                bingoMessage.style.animation = 'none';
+                bingoMessage.offsetHeight; // リフロー
+                bingoMessage.style.animation = null;
+                
+                // 紙吹雪のアニメーションを追加
+                createConfetti();
+                
+                setTimeout(() => {
+                    bingoMessage.style.display = 'none';
+                }, 3000); // 3秒後に消える
+            }
+
+            function createConfetti() {
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }
+            }
+        
         </script>
     </body>
 </html>
