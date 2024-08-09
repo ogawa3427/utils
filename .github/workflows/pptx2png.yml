@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    if: (github.actor == 'ogawa3427' || github.actor == 'MAPLE0212') && github.event_name == 'pull_request'
+    if: (github.actor == 'ogawa3427' || github.actor == 'MAPLE0212')
     runs-on: ubuntu-latest
     permissions:
       contents: write
