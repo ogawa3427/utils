@@ -15,7 +15,7 @@
   font-weight:bold;
 }
 .wholebody{
- background-color:#00A0E9;
+  background: linear-gradient(45deg, #007bff, #66b0ff) !important;
  font-family: Arial;
 
 
@@ -45,7 +45,7 @@
   box-shadow:0 0 10px rgba(0,0,0,0.3);
 }
 .main-container{
-  background-color:#00A0E9
+  background: linear-gradient(45deg, #007bff, #66b0ff) !important;
 
 }
 .script{
