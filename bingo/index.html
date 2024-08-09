@@ -25,16 +25,126 @@
             }
             .confetti {
                 position: fixed;
-                top: 0;
-                left: 0;
+                top: -10px;
                 width: 10px;
                 height: 10px;
                 background-color: #fff;
-                animation: confetti 5s ease-out;
+                animation: confettiFall linear forwards;
             }
-            @keyframes confetti {
-                0% { transform: translateY(0); }
-                100% { transform: translateY(-100vh); }
+            @keyframes confettiFall {
+                0% { transform: translateY(-100vh) rotate(0deg); }
+                100% { transform: translateY(100vh) rotate(360deg); }
+            }
+            .mission-box {
+                max-width: 80%;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: #f0f0f0;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+
+            .mission-text {
+                font-size: 16px;
+                line-height: 1.5;
+                margin-bottom: 10px;
+                padding: 10px;
+                background-color: #ffffff;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                transition: all 0.3s ease;
+            }
+
+            .mission-text:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+
+            .mission-number {
+                font-weight: bold;
+                color: #007bff;
+                margin-right: 10px;
+            }
+
+            .footer {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .button {
+                display: inline-block;
+                padding: 15px 30px;
+                font-size: 18px;
+                font-weight: bold;
+                text-transform: uppercase;
+                color: #ffffff;
+                background: linear-gradient(45deg, #ff6b6b, #feca57);
+                border: none;
+                border-radius: 50px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                margin: 0 10px;
+            }
+
+            .button:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+                background: linear-gradient(45deg, #ff8787, #ffd571);
+            }
+
+            .button:active {
+                transform: translateY(-1px);
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            #start {
+                background: linear-gradient(45deg, #4facfe, #00f2fe);
+            }
+
+            #start:hover {
+                background: linear-gradient(45deg, #73b6fe, #1af7fe);
+            }
+
+            #reset {
+                background: linear-gradient(45deg, #ff6b6b, #feca57);
+            }
+
+            #reset:hover {
+                background: linear-gradient(45deg, #ff8787, #ffd571);
+            }
+
+            @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+            .header {
+                text-align: center;
+                padding: 20px 0;
+                background: linear-gradient(45deg, #007bff, #66b0ff);
+                margin-bottom: 20px;
+            }
+
+            .bingo-font {
+                font-family: 'Fredoka One', cursive;
+                font-size: 4em;
+                color: #ffffff;
+                text-shadow: 
+                    3px 3px 0 #0056b3,
+                    6px 6px 0 #003d80;
+                margin: 0;
+                letter-spacing: 0.1em;
+                animation: float 3s ease-in-out infinite;
+            }
+
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+                100% {
+                    transform: translateY(0px);
+                }
             }
         </style>
     </head>
@@ -51,19 +161,19 @@
 
         </div>
         <div class="footer">
-            <button id="start">Start</button>
-            <button id="reset">Reset</button>
+            <button id="start" class="button">スタート</button>
+            <button id="reset" class="button">リセット</button>
         </div>
         <div id="bingoMessage" class="bingo-message">BINGO!</div>
         <script>
         
           const miisions = {
-            "1": "「好きな動物は何ですか?」",
-            "2": "「好きな動物は何ですか?」",
-            "3": "「好きな動物は何ですか?」",
-            "4": "「好きな動物は何ですか?」",
-            "5": "「好きなアニメ・映画は何ですか?」",
-            "6": "「好きなアニメ・映画は何ですか?」",
+            "1": "融合学域は、西暦何年に創設したでしょう?",
+            "2": "従来の常識や殻を破り、社会を変革し、新たな未来を□□□□先導学類(和田隆志学長の言葉より)空欄に当てはまるものは？①展開する②切り拓く③実現する",
+            "3": "我が国の観光産業を牽引し、新たな価値デザイン社会を□□□□観光デザイン学類(和田隆志学長の言葉より)空欄に当てはまるものは？①創造する②運営する③磨き上げる",
+            "4": "持続可能なスマートシティを見据えた未来の科学を□□□□スマート創成科学類(和田隆志学長の言葉より)空欄に当てはまるものは？①牽引する②創成する③独創する",
+            "5": "「先導学類の学類長である中山先生が行ってみたい県は何県でしょう？」",
+            "6": "設計工学専門、スマ創の授業も担当されている坂本先生が飼っている猫は何匹いるでしょう？",
             "7": "「好きなアニメ・映画は何ですか?」",
             "8": "「好きなアニメ・映画は何ですか?」",
             "9": "「楽しかった授業は何ですか?」",
@@ -82,12 +192,12 @@
             "22": "「金沢大学の改善すべきところは何ですか?」",
             "23": "「金沢大学の改善すべきところは何ですか?」",
             "24": "「なぜ今の学類を選んだのかを聞いて下さい」",
-            "25": " 「なぜ今の学類を選んだのかを聞いて下さい」",
-            "26": "「なぜ今��学類を選んだのかを聞いて下さい」",
+            "25": " 「なぜ今の学類を選んだのか聞いて下さい」",
+            "26": "「なぜ今学類を選んだのかを聞いて下さい」",
             "27": "「なぜ今の学類を選んだのかを聞いて下さい」",
-            "28": "「今何に力を言えれているのか〇〇教授に言って下さい」",
+            "28": "「今何に力を言えれてのか〇〇教授に言って下さい」",
             "29": "「今何に力を言えれているのか〇〇教授に言って下さい」",
-            "30": "「3学類で一セットを作って、しかのこのこのここしたんたんを踊ってください」",
+            "30": "「3学類で一セットを作って、しかのこのこのこしたんたんを踊ってください」",
 
           }
             document.getElementById('start').addEventListener('click', generateBingoSheet);
@@ -98,8 +208,27 @@
                 missionBox.innerHTML = ''; // 既存の内容をクリア
                 container.innerHTML = ''; // 既存の内容をクリア
 
-                const numbers = Array.from({ length: 30 }, (_, i) => i + 1);
-                shuffle(numbers);
+                const numbers = [];
+                const fixedNumbers = [1, 2, 3, 4, 5, 6];
+                
+                // 1から6の数字を必ず含める
+                for (let i = 0; i < fixedNumbers.length; i++) {
+                    numbers.push(fixedNumbers[i]);
+                }
+                
+                // 残りのマスを7か��40の範でランダムに埋める
+                while (numbers.length < 24) {
+                    const num = Math.floor(Math.random() * 34) + 7; // 7から40までの乱数
+                    if (!numbers.includes(num)) {
+                        numbers.push(num);
+                    }
+                }
+                
+                // 配列をシャッフル
+                for (let i = numbers.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+                }
 
                 for (let i = 0; i < 5; i++) {
                     const row = document.createElement('div');
@@ -110,10 +239,16 @@
                         if (i === 2 && j === 2) {
                             cell.textContent = 'FREE';
                         } else {
-                            cell.textContent = numbers.pop();
+                            const index = i * 5 + j;
+                            if (index > 12) {
+                                cell.textContent = numbers[index - 1];
+                            } else {
+                                cell.textContent = numbers[index];
+                            }
                         }
                         let missionTextBox = document.createElement('p');
-                        missionTextBox.textContent = cell.textContent + miisions[cell.textContent];
+                        missionTextBox.className = 'mission-text';
+                        missionTextBox.innerHTML = `<span class="mission-number">${cell.textContent}:</span>${miisions[cell.textContent] || ''}`;
                         missionBox.appendChild(missionTextBox);
                         cell.addEventListener('click', toggleCell); // クリックイベントを追加
                         row.appendChild(cell);
@@ -161,7 +296,7 @@
                 bingoMessage.offsetHeight; // リフロー
                 bingoMessage.style.animation = null;
                 
-                // 紙吹雪のアニメーションを追加
+                // 紙吹雪のアニメーョンを追加
                 createConfetti();
                 
                 setTimeout(() => {
