@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    if: (github.actor == 'ogawa3427' || github.actor == 'MAPLE0212')
+    if: (github.actor == 'ogawa3427' || github.actor == 'MAPLE0212') && github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -63,7 +63,7 @@ jobs:
             -f target_url="${{ github.event.pull_request.html_url }}"
 
   merge:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request_target'
     needs: [build, status_check]
     runs-on: ubuntu-latest
     permissions:
