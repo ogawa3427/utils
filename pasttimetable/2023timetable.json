@@ -1,0 +1,272 @@
+[
+  {
+    "course_code": "7513a.15",
+    "day_period": "月/2時限",
+    "course_name": "線形代数学ⅠＡ",
+    "term": "Q1"
+  },
+  {
+    "course_code": "79500.17",
+    "day_period": "月/3時限",
+    "course_name": "大学・社会生活論",
+    "term": "Q1"
+  },
+  {
+    "course_code": "74131.702",
+    "day_period": "火/2時限",
+    "course_name": "EAP Ⅰ",
+    "term": "Q1"
+  },
+  {
+    "course_code": "75E20a.123",
+    "day_period": "火/3時限",
+    "course_name": "生活と社会保障",
+    "term": "Q1"
+  },
+  {
+    "course_code": "74121.302",
+    "day_period": "水/2時限",
+    "course_name": "TOEIC準備 Ⅰ",
+    "term": "Q1"
+  },
+  {
+    "course_code": "13001",
+    "day_period": "水/4時限",
+    "course_name": "アカデミックスキル",
+    "term": "Q1"
+  },
+  {
+    "course_code": "23001",
+    "day_period": "水/5時限",
+    "course_name": "アントレプレナー基礎",
+    "term": "Q1"
+  },
+  {
+    "course_code": "73675.01",
+    "day_period": "水/7時限",
+    "course_name": "シェルスクリプト言語論１",
+    "term": "Q1"
+  },
+  {
+    "course_code": "79605.16",
+    "day_period": "木/2時限",
+    "course_name": "データサイエンス基礎",
+    "term": "Q1"
+  },
+  {
+    "course_code": "72A10a.143",
+    "day_period": "木/3時限",
+    "course_name": "哲学（自我論）",
+    "term": "Q1"
+  },
+  {
+    "course_code": "72E20a.144",
+    "day_period": "木/4時限",
+    "course_name": "細胞・分子生物学",
+    "term": "Q1"
+  },
+  {
+    "course_code": "7521a.16",
+    "day_period": "金/2時限",
+    "course_name": "物理学ⅠＡ",
+    "term": "Q1"
+  },
+  {
+    "course_code": "73B00a.153",
+    "day_period": "金/3時限",
+    "course_name": "クリティカル・シンキング（英語クラス）",
+    "term": "Q1"
+  },
+  {
+    "course_code": "7513b.15",
+    "day_period": "月/2時限",
+    "course_name": "線形代数学ⅠＢ",
+    "term": "Q2"
+  },
+  {
+    "course_code": "75B10a.213",
+    "day_period": "月/3時限",
+    "course_name": "統計学から未来を見る",
+    "term": "Q2"
+  },
+  {
+    "course_code": "74132.702",
+    "day_period": "火/2時限",
+    "course_name": "EAP Ⅱ",
+    "term": "Q2"
+  },
+  {
+    "course_code": "74B00a.224",
+    "day_period": "火/4時限",
+    "course_name": "日本史・日本文化（英語クラス）",
+    "term": "Q2"
+  },
+  {
+    "course_code": "76E10a.225",
+    "day_period": "火/5時限",
+    "course_name": "論理学と数学の基礎（論理学から見る世界）",
+    "term": "Q2"
+  },
+  {
+    "course_code": "74122.302",
+    "day_period": "水/2時限",
+    "course_name": "TOEIC準備 Ⅱ",
+    "term": "Q2"
+  },
+  {
+    "course_code": "13002",
+    "day_period": "水/4時限",
+    "course_name": "プレゼン・ディベート論",
+    "term": "Q2"
+  },
+  {
+    "course_code": "79701.17",
+    "day_period": "水/5時限",
+    "course_name": "地域概論",
+    "term": "Q2"
+  },
+  {
+    "course_code": "13005",
+    "day_period": "木/2時限",
+    "course_name": "デザイン思考",
+    "term": "Q2"
+  },
+  {
+    "course_code": "73704",
+    "day_period": "金/１時限",
+    "course_name": "シェルスクリプトを用いた「ものグラミング」演習A",
+    "term": "Q2"
+  },
+  {
+    "course_code": "7521b.16",
+    "day_period": "金/2時限",
+    "course_name": "物理学ⅠＢ",
+    "term": "Q2"
+  },
+  {
+    "course_code": "74133.704",
+    "day_period": "火/2時限",
+    "course_name": "EAP Ⅲ",
+    "term": "Q3"
+  },
+  {
+    "course_code": "72B10a.324",
+    "day_period": "火/4時限",
+    "course_name": "パーソナリティ心理学",
+    "term": "Q3"
+  },
+  {
+    "course_code": "74123.301",
+    "day_period": "水/2時限",
+    "course_name": "TOEIC準備 Ⅲ",
+    "term": "Q3"
+  },
+  {
+    "course_code": "7515a.13",
+    "day_period": "水/4時限",
+    "course_name": "統計数学Ａ",
+    "term": "Q3"
+  },
+  {
+    "course_code": "13003",
+    "day_period": "水/5時限",
+    "course_name": "イノベーション基礎",
+    "term": "Q3"
+  },
+  {
+    "course_code": "7514a.15",
+    "day_period": "木/2時限",
+    "course_name": "線形代数学ⅡＡ",
+    "term": "Q3"
+  },
+  {
+    "course_code": "74F00a.323",
+    "day_period": "木/3時限",
+    "course_name": "グローバル社会と地域の課題",
+    "term": "Q3"
+  },
+  {
+    "course_code": "76C10.344",
+    "day_period": "木/4時限",
+    "course_name": "情報の科学（英語クラス）",
+    "term": "Q3"
+  },
+  {
+    "course_code": "73676.02",
+    "day_period": "木/7時限",
+    "course_name": "シェルスクリプト言語論２",
+    "term": "Q3"
+  },
+  {
+    "course_code": "73705",
+    "day_period": "金/１時限",
+    "course_name": "シェルスクリプトを用いた「ものグラミング」演習B",
+    "term": "Q3"
+  },
+  {
+    "course_code": "13004",
+    "day_period": "金/３時限ー前半～４時限ー後半",
+    "course_name": "数理・データサイエンス基礎及び演習",
+    "term": "Q3"
+  },
+  {
+    "course_code": "76B10.355",
+    "day_period": "金/5時限",
+    "course_name": "AI入門（英語クラス）",
+    "term": "Q3"
+  },
+  {
+    "course_code": "73C00a.411",
+    "day_period": "月/１時限",
+    "course_name": "価値と情動の認知科学",
+    "term": "Q4"
+  },
+  {
+    "course_code": "74134.704",
+    "day_period": "火/2時限",
+    "course_name": "EAP Ⅳ",
+    "term": "Q4"
+  },
+  {
+    "course_code": "74124.301",
+    "day_period": "水/2時限",
+    "course_name": "TOEIC準備 Ⅳ",
+    "term": "Q4"
+  },
+  {
+    "course_code": "7515b.13",
+    "day_period": "水/4時限",
+    "course_name": "統計数学Ｂ",
+    "term": "Q4"
+  },
+  {
+    "course_code": "71A10a.435",
+    "day_period": "水/5時限",
+    "course_name": "現代世界への歴史学的アプローチ",
+    "term": "Q4"
+  },
+  {
+    "course_code": "7514b.15",
+    "day_period": "木/2時限",
+    "course_name": "線形代数学ⅡＢ",
+    "term": "Q4"
+  },
+  {
+    "course_code": "75F21.443",
+    "day_period": "木/3時限",
+    "course_name": "現代社会と人権（英語クラス）",
+    "term": "Q4"
+  },
+  {
+    "course_code": "71B10a.444",
+    "day_period": "木/4時限",
+    "course_name": "グローバル時代の政治経済学",
+    "term": "Q4"
+  },
+  {
+    "course_code": "23102",
+    "day_period": "金/3時限",
+    "course_name": "ファイナンス基礎",
+    "term": "Q4"
+  }
+]

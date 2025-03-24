@@ -1,0 +1,284 @@
+[
+  {
+    "course_code": "43009",
+    "day_period": "火/１時限",
+    "course_name": "論理回路Ａ論理回路Ａ",
+    "term": "Q1"
+  },
+  {
+    "course_code": "23002",
+    "day_period": "火/5時限",
+    "course_name": "アントレプレナー演習Ⅰアントレプレナー演習Ⅰ",
+    "term": "Q1"
+  },
+  {
+    "course_code": "23106",
+    "day_period": "水/１時限",
+    "course_name": "フィンテック基礎とビジネス応用フィンテック基礎とビジネス応用",
+    "term": "Q1"
+  },
+  {
+    "course_code": "23104",
+    "day_period": "水/3時限",
+    "course_name": "スマート創成化学とバイオロジースマート創成化学とバイオロジー",
+    "term": "Q1"
+  },
+  {
+    "course_code": "23004",
+    "day_period": "水/4時限",
+    "course_name": "産業ＤＸ・ＰＢＬ演習Ⅰ産業ＤＸ・ＰＢＬ演習Ⅰ",
+    "term": "Q1"
+  },
+  {
+    "course_code": "43001",
+    "day_period": "木/１時限",
+    "course_name": "アルゴリズムとデータ構造Ａアルゴリズムとデータ構造Ａ",
+    "term": "Q1"
+  },
+  {
+    "course_code": "43011",
+    "day_period": "木/2時限",
+    "course_name": "情報ネットワークＡ情報ネットワークＡ",
+    "term": "Q1"
+  },
+  {
+    "course_code": "23105",
+    "day_period": "木/3時限",
+    "course_name": "技術社会と倫理技術社会と倫理",
+    "term": "Q1"
+  },
+  {
+    "course_code": "23103",
+    "day_period": "金/2時限",
+    "course_name": "ロボットイノベーションロボットイノベーション",
+    "term": "Q1"
+  },
+  {
+    "course_code": "13101.1",
+    "day_period": "月/2時限",
+    "course_name": "学域GS言語科目Ⅰ／海外実践英語学域GS言語科目Ⅰ／海外実践英語",
+    "term": "Q2"
+  },
+  {
+    "course_code": "23109",
+    "day_period": "月/5時限",
+    "course_name": "AIと未来の社会学AIと未来の社会学",
+    "term": "Q2"
+  },
+  {
+    "course_code": "43010",
+    "day_period": "火/１時限",
+    "course_name": "論理回路Ｂ論理回路Ｂ",
+    "term": "Q2"
+  },
+  {
+    "course_code": "23006",
+    "day_period": "火/2時限",
+    "course_name": "社会調査法社会調査法",
+    "term": "Q2"
+  },
+  {
+    "course_code": "23110",
+    "day_period": "火/3時限",
+    "course_name": "未来エネルギー創成未来エネルギー創成",
+    "term": "Q2"
+  },
+  {
+    "course_code": "23003",
+    "day_period": "火/5時限",
+    "course_name": "アントレプレナー演習Ⅱアントレプレナー演習Ⅱ",
+    "term": "Q2"
+  },
+  {
+    "course_code": "23111",
+    "day_period": "水/3時限",
+    "course_name": "超スマートシティとSociety 5.0超スマートシティとSociety 5.0",
+    "term": "Q2"
+  },
+  {
+    "course_code": "23005",
+    "day_period": "水/4時限",
+    "course_name": "産業ＤＸ・ＰＢＬ演習Ⅱ産業ＤＸ・ＰＢＬ演習Ⅱ",
+    "term": "Q2"
+  },
+  {
+    "course_code": "43002",
+    "day_period": "木/１時限",
+    "course_name": "アルゴリズムとデータ構造Ｂアルゴリズムとデータ構造Ｂ",
+    "term": "Q2"
+  },
+  {
+    "course_code": "43012",
+    "day_period": "木/2時限",
+    "course_name": "情報ネットワークＢ情報ネットワークＢ",
+    "term": "Q2"
+  },
+  {
+    "course_code": "23013",
+    "day_period": "月/2時限",
+    "course_name": "プログラミングスキルプログラミングスキル",
+    "term": "Q3"
+  },
+  {
+    "course_code": "23113",
+    "day_period": "月/3時限",
+    "course_name": "世界の課題と技術トレンド世界の課題と技術トレンド",
+    "term": "Q3"
+  },
+  {
+    "course_code": "23010",
+    "day_period": "月/4時限",
+    "course_name": "スマートデバイス演習スマートデバイス演習",
+    "term": "Q3"
+  },
+  {
+    "course_code": "43093",
+    "day_period": "火/2時限",
+    "course_name": "形式言語論とオートマトンＡ形式言語論とオートマトンＡ",
+    "term": "Q3"
+  },
+  {
+    "course_code": "23115",
+    "day_period": "火/3時限",
+    "course_name": "IoT技術IoT技術",
+    "term": "Q3"
+  },
+  {
+    "course_code": "43017",
+    "day_period": "水/2時限",
+    "course_name": "計算機システムＡ計算機システムＡ",
+    "term": "Q3"
+  },
+  {
+    "course_code": "23117",
+    "day_period": "水/3時限",
+    "course_name": "情報科学応用情報科学応用",
+    "term": "Q3"
+  },
+  {
+    "course_code": "33302",
+    "day_period": "水/4時限",
+    "course_name": "消費者行動と社会消費者行動と社会",
+    "term": "Q3"
+  },
+  {
+    "course_code": "33301",
+    "day_period": "木/2時限",
+    "course_name": "スマート産業論スマート産業論",
+    "term": "Q3"
+  },
+  {
+    "course_code": "23011",
+    "day_period": "木/4時限",
+    "course_name": "北陸地域創生と社会学北陸地域創生と社会学",
+    "term": "Q3"
+  },
+  {
+    "course_code": "23107",
+    "day_period": "金/１時限金/2時限",
+    "course_name": "マーケティング論マーケティング論",
+    "term": "Q3"
+  },
+  {
+    "course_code": "43015.1",
+    "day_period": "金/3時限",
+    "course_name": "情報理論Ａ情報理論Ａ",
+    "term": "Q3"
+  },
+  {
+    "course_code": "23116",
+    "day_period": "月/3時限",
+    "course_name": "金融工学金融工学",
+    "term": "Q4"
+  },
+  {
+    "course_code": "33303",
+    "day_period": "月/5時限",
+    "course_name": "実践データサイエンス実践データサイエンス",
+    "term": "Q4"
+  },
+  {
+    "course_code": "33101",
+    "day_period": "火/2時限",
+    "course_name": "先端医学先端医学",
+    "term": "Q4"
+  },
+  {
+    "course_code": "33103",
+    "day_period": "火/3時限",
+    "course_name": "QOLとWell-beingQOLとWell-being",
+    "term": "Q4"
+  },
+  {
+    "course_code": "23015",
+    "day_period": "火/4時限",
+    "course_name": "データ駆動型社会と産業データ駆動型社会と産業",
+    "term": "Q4"
+  },
+  {
+    "course_code": "33102",
+    "day_period": "水/１時限",
+    "course_name": "未来医科学未来医科学",
+    "term": "Q4"
+  },
+  {
+    "course_code": "23121",
+    "day_period": "水/2時限",
+    "course_name": "北陸の都市・農村・文化北陸の都市・農村・文化",
+    "term": "Q4"
+  },
+  {
+    "course_code": "23120",
+    "day_period": "水/3時限",
+    "course_name": "スマートシステム制御スマートシステム制御",
+    "term": "Q4"
+  },
+  {
+    "course_code": "23122",
+    "day_period": "水/5時限",
+    "course_name": "北陸の農林水産・製造業北陸の農林水産・製造業",
+    "term": "Q4"
+  },
+  {
+    "course_code": "23009",
+    "day_period": "木/2時限",
+    "course_name": "地方創生に見る社会課題地方創生に見る社会課題",
+    "term": "Q4"
+  },
+  {
+    "course_code": "23108",
+    "day_period": "木/3時限",
+    "course_name": "北陸技術経営論北陸技術経営論",
+    "term": "Q4"
+  },
+  {
+    "course_code": "23119",
+    "day_period": "金/１時限",
+    "course_name": "数理行動モデル基礎数理行動モデル基礎",
+    "term": "Q4"
+  },
+  {
+    "course_code": "23014",
+    "day_period": "金/2時限",
+    "course_name": "Webサイト設計基礎Webサイト設計基礎",
+    "term": "Q4"
+  },
+  {
+    "course_code": "43016.1",
+    "day_period": "金/3時限",
+    "course_name": "情報理論Ｂ情報理論Ｂ",
+    "term": "Q4"
+  },
+  {
+    "course_code": "33502",
+    "day_period": "金/4時限",
+    "course_name": "実践スマートシティ論実践スマートシティ論",
+    "term": "Q4"
+  },
+  {
+    "course_code": "23012",
+    "day_period": "金/5時限",
+    "course_name": "数理・データサイエンス・AI実践数理・データサイエンス・AI実践",
+    "term": "Q4"
+  }
+]

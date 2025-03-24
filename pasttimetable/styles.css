@@ -1,0 +1,34 @@
+.table th {
+    background-color: #f8f9fa;
+}
+
+.course-cell {
+    padding: 8px;
+    font-size: 0.9em;
+}
+
+.course-name {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.course-code {
+    color: #666;
+    font-size: 0.8em;
+}
+
+.period-cell {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .course-cell {
+        font-size: 0.8em;
+    }
+    
+    .course-code {
+        font-size: 0.7em;
+    }
+} 
