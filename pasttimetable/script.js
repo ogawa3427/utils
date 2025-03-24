@@ -3,7 +3,8 @@ let timetableData = [];
 // データを読み込む
 async function loadTimetableData() {
     try {
-        const response = await fetch('2023timetable.json');
+        const year = document.getElementById('yearSelect').value;
+        const response = await fetch(`${year}timetable.json`);
         timetableData = await response.json();
         updateTimetable();
     } catch (error) {
@@ -22,13 +23,20 @@ const dayMapping = {
 
 // 時限のマッピング
 const periodMapping = {
+    '1時限': 1,
     '１時限': 1,
     '2時限': 2,
+    '２時限': 2,
     '3時限': 3,
+    '３時限': 3,
     '4時限': 4,
+    '４時限': 4,
     '5時限': 5,
+    '５時限': 5,
     '6時限': 6,
-    '7時限': 7
+    '６時限': 6,
+    '7時限': 7,
+    '７時限': 7
 };
 
 // タイムテーブルを更新
@@ -55,7 +63,11 @@ function updateTimetable() {
                 
                 const [courseDay, coursePeriod] = course.day_period.split('/');
                 const courseDayNum = dayMapping[courseDay];
-                const coursePeriodNum = periodMapping[coursePeriod.replace('時限', '')];
+                const coursePeriodNum = periodMapping[coursePeriod];
+
+                // console.log(courseDay, coursePeriod.replace('時限', ''));
+
+                // console.log(periodMapping[coursePeriod.replace('時限', '')]);
                 
                 return courseDayNum === day && coursePeriodNum === period;
             });
@@ -65,9 +77,35 @@ function updateTimetable() {
                     const courseDiv = document.createElement('div');
                     courseDiv.className = 'course-cell';
                     
+                    // 科目の種類に応じた背景色を設定
+                    switch(course.type) {
+                        case '必修':
+                        case '専門':
+                            courseDiv.style.backgroundColor = '#ffebee'; // 淡いピンク
+                            break;
+                        case 'GS':
+                            courseDiv.style.backgroundColor = '#e3f2fd'; // 青
+                            break;
+                        case '他学域':
+                        case 'その他':
+                            courseDiv.style.backgroundColor = '#f5f5f5'; // 灰色
+                            break;
+                        case '言語':
+                            courseDiv.style.backgroundColor = '#e8f5e9'; // 黄緑
+                            break;
+                        case '基礎':
+                            courseDiv.style.backgroundColor = '#fff3e0'; // 黄色
+                            break;
+                    }
+                    
                     const nameDiv = document.createElement('div');
                     nameDiv.className = 'course-name';
-                    nameDiv.textContent = course.course_name;
+                    // 科目名の重複を防ぐ
+                    const courseName = course.course_name;
+                    const uniqueName = courseName.length % 2 === 0 && 
+                        courseName.slice(0, courseName.length/2) === courseName.slice(courseName.length/2) ?
+                        courseName.slice(0, courseName.length/2) : courseName;
+                    nameDiv.textContent = uniqueName;
                     
                     const codeDiv = document.createElement('div');
                     codeDiv.className = 'course-code';
@@ -88,6 +126,7 @@ function updateTimetable() {
 
 // イベントリスナーを設定
 document.getElementById('termSelect').addEventListener('change', updateTimetable);
+document.getElementById('yearSelect').addEventListener('change', loadTimetableData);
 
 // 初期データ読み込み
 loadTimetableData(); 
