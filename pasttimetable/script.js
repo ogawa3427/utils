@@ -23,27 +23,93 @@ const dayMapping = {
 
 // 時限のマッピング
 const periodMapping = {
-    '1時限': 1,
-    '１時限': 1,
-    '2時限': 2,
-    '２時限': 2,
-    '3時限': 3,
-    '３時限': 3,
-    '4時限': 4,
-    '４時限': 4,
-    '5時限': 5,
-    '５時限': 5,
-    '6時限': 6,
-    '６時限': 6,
-    '7時限': 7,
-    '７時限': 7
+    '1': 1, '１': 1,
+    '2': 2, '２': 2,
+    '3': 3, '３': 3,
+    '4': 4, '４': 4,
+    '5': 5, '５': 5,
+    '6': 6, '６': 6,
+    '7': 7, '７': 7
 };
+
+// 曜日と時限のペアを解析する関数
+function parseDayPeriod(dayPeriodStr) {
+    const days = [];
+    const periods = [];
+    let currentDay = null;
+    let currentPeriod = null;
+    
+    // 文字列を1文字ずつ処理
+    for (let i = 0; i < dayPeriodStr.length; i++) {
+        const char = dayPeriodStr[i];
+        
+        // 曜日の処理
+        if (dayMapping[char]) {
+            currentDay = dayMapping[char];
+            days.push(currentDay);
+            continue;
+        }
+        
+        // 数字（時限）の処理
+        if (periodMapping[char]) {
+            currentPeriod = periodMapping[char];
+            periods.push(currentPeriod);
+            continue;
+        }
+        
+        // スラッシュの処理
+        if (char === '/') {
+            continue;
+        }
+    }
+    
+    // エラーチェック
+    if (days.length === 0 || periods.length === 0) {
+        throw new Error('曜日または時限が見つかりません');
+    }
+    
+    // 曜日と時限の対応を生成
+    const pairs = [];
+    
+    // 曜日と時限の数が一致する場合
+    if (days.length === periods.length) {
+        for (let i = 0; i < days.length; i++) {
+            pairs.push({ day: days[i], period: periods[i] });
+        }
+    }
+    // 曜日が1つで時限が複数の場合
+    else if (days.length === 1) {
+        periods.forEach(period => {
+            pairs.push({ day: days[0], period: period });
+        });
+    }
+    // 時限が1つで曜日が複数の場合
+    else if (periods.length === 1) {
+        days.forEach(day => {
+            pairs.push({ day: day, period: periods[0] });
+        });
+    }
+    else {
+        throw new Error('曜日と時限の対応が不明確です');
+    }
+    
+    return pairs;
+}
 
 // タイムテーブルを更新
 function updateTimetable() {
     const term = document.getElementById('termSelect').value;
     const tbody = document.getElementById('timetableBody');
     tbody.innerHTML = '';
+    
+    // エラーメッセージを表示する要素
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    tbody.parentNode.insertBefore(errorDiv, tbody);
+    errorDiv.innerHTML = '';
+
+    // 表示された科目を追跡するためのセット
+    const displayedCourses = new Set();
 
     // 7時限分の行を作成
     for (let period = 1; period <= 7; period++) {
@@ -59,21 +125,26 @@ function updateTimetable() {
         for (let day = 1; day <= 5; day++) {
             const cell = document.createElement('td');
             const courses = timetableData.filter(course => {
-                if (course.term !== term) return false;
+                // 学期の判定を修正
+                const selectedTerm = term;
+                // Q1Q2のような形式を[Q1, Q2]のような配列に変換
+                const courseTerms = course.term.match(/Q[1-4]/g) || [];
+                if (!courseTerms.includes(selectedTerm)) return false;
                 
-                const [courseDay, coursePeriod] = course.day_period.split('/');
-                const courseDayNum = dayMapping[courseDay];
-                const coursePeriodNum = periodMapping[coursePeriod];
-
-                // console.log(courseDay, coursePeriod.replace('時限', ''));
-
-                // console.log(periodMapping[coursePeriod.replace('時限', '')]);
-                
-                return courseDayNum === day && coursePeriodNum === period;
+                try {
+                    const pairs = parseDayPeriod(course.day_period);
+                    return pairs.some(pair => pair.day === day && pair.period === period);
+                } catch (error) {
+                    errorDiv.innerHTML += `<p>エラー: ${course.course_code} - ${error.message}</p>`;
+                    return false;
+                }
             });
 
             if (courses.length > 0) {
                 courses.forEach(course => {
+                    // 表示された科目を記録
+                    displayedCourses.add(course.course_code);
+                    
                     const courseDiv = document.createElement('div');
                     courseDiv.className = 'course-cell';
                     
@@ -121,6 +192,18 @@ function updateTimetable() {
         }
         
         tbody.appendChild(row);
+    }
+
+    // 表示されなかった科目をコンソールに出力
+    const notDisplayedCourses = timetableData.filter(course => 
+        course.term === term && !displayedCourses.has(course.course_code)
+    );
+    
+    console.log(`表示された科目数: ${displayedCourses.size}`);
+    console.log(`表示されなかった科目数: ${notDisplayedCourses.length}`);
+    
+    if (notDisplayedCourses.length > 0) {
+        console.log('表示されなかった科目:', notDisplayedCourses);
     }
 }
 
