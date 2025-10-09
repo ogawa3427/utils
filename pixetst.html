@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+        
+        .container {
+            display: flex;
+        }
+        
+        .column {
+            width: 10px;
+            height: 2048px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pixel {
+            width: 10px;
+            height: 1px;
+        }
+        
+        .white {
+            background-color: white;
+        }
+        
+        .black {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="patternContainer"></div>
+
+    <script>
+        const container = document.getElementById('patternContainer');
+        const patterns = [];
+        
+        // 1から2048までの2の累乗を生成
+        for (let i = 0; i <= 11; i++) {
+            patterns.push(Math.pow(2, i));
+        }
+        
+        const totalHeight = 2048;
+        
+        patterns.forEach((pattern) => {
+            const column = document.createElement('div');
+            column.className = 'column';
+            
+            for (let i = 0; i < totalHeight; i++) {
+                const pixel = document.createElement('div');
+                pixel.className = 'pixel';
+                
+                if (Math.floor(i / pattern) % 2 === 0) {
+                    pixel.classList.add('white');
+                } else {
+                    pixel.classList.add('black');
+                }
+                
+                column.appendChild(pixel);
+            }
+            
+            container.appendChild(column);
+        });
+    </script>
+</body>
+</html>
